@@ -1,0 +1,408 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #066466 0%, #ACADA8 100%);
+    min-height: 100vh;
+}
+
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 50px;
+    background-color: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-immersive {
+    font-size: 28px;
+    font-weight: 600;
+    color: #333;
+    letter-spacing: 1px;
+}
+
+.logo-lfa {
+    font-size: 32px;
+    font-weight: 700;
+    background: linear-gradient(135deg, #066466 0%, #ACADA8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-style: italic;
+    letter-spacing: 2px;
+}
+
+nav {
+    display: flex;
+    gap: 20px;
+}
+
+.nav-tab {
+    padding: 12px 24px;
+    background-color: transparent;
+    border: 2px solid #066466;
+    color: #066466;
+    font-size: 16px;
+    font-weight: 500;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.nav-tab:hover {
+    background-color: #066466;
+    color: white;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 100, 102, 0.4);
+}
+
+main {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 100px);
+    padding: 40px;
+}
+
+.hero-section {
+    text-align: center;
+    color: white;
+}
+
+.hero-section h1 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.hero-section p {
+    font-size: 24px;
+    font-weight: 300;
+    text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.courses-section {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    max-width: 1200px;
+}
+
+.course-card {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 12px;
+    width: 400px;
+    border: 2px solid #066466;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.course-card:hover {
+    background-color: #000000;
+    color: white;
+    transform: translateY(-5px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+}
+
+.course-card h2 {
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 20px;
+    color: #333;
+    transition: color 0.3s ease;
+}
+
+.course-card:hover h2 {
+    color: white;
+}
+
+.course-card ul {
+    list-style: none;
+    padding: 0;
+}
+
+.course-card li {
+    font-size: 16px;
+    margin-bottom: 12px;
+    padding-left: 25px;
+    position: relative;
+    color: #555;
+    transition: color 0.3s ease;
+}
+
+.course-card li::before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    font-size: 20px;
+    color: #066466;
+    transition: color 0.3s ease;
+}
+
+.course-card:hover li {
+    color: white;
+}
+
+.course-card:hover li::before {
+    color: white;
+}
+
+.course-view {
+    display: flex;
+    width: 100%;
+    max-width: 1400px;
+    gap: 0;
+}
+
+.course-sidebar {
+    width: 300px;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 30px 20px;
+    border-radius: 12px 0 0 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.course-sidebar h3 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 25px;
+    padding-bottom: 15px;
+    border-bottom: 2px solid #066466;
+}
+
+.lesson-list {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+}
+
+.lesson-item {
+    padding: 15px 10px;
+    color: #4a4a4a;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    border-bottom: 2px solid transparent;
+}
+
+.lesson-item:hover {
+    color: #4a4a4a;
+    border-bottom: 2px solid #4a4a4a;
+}
+
+.lesson-item.active {
+    color: #066466;
+    font-weight: 600;
+    border-bottom: 2px solid #066466;
+}
+
+.course-content {
+    flex: 1;
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 40px;
+    border-radius: 0 12px 12px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+#lesson-content h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 20px;
+}
+
+#lesson-content p {
+    font-size: 18px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.login-section,
+.signup-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.login-container {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 50px;
+    border-radius: 12px;
+    width: 100%;
+    max-width: 450px;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+}
+
+.login-container h2 {
+    font-size: 32px;
+    font-weight: 700;
+    color: #333;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+.login-subtitle {
+    font-size: 16px;
+    color: #666;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.google-login-btn {
+    width: 100%;
+    padding: 14px;
+    background-color: white;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    color: #333;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 20px;
+}
+
+.google-login-btn:hover {
+    background-color: #f8f8f8;
+    border-color: #066466;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.divider {
+    text-align: center;
+    margin: 25px 0;
+    position: relative;
+}
+
+.divider::before,
+.divider::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 45%;
+    height: 1px;
+    background-color: #ddd;
+}
+
+.divider::before {
+    left: 0;
+}
+
+.divider::after {
+    right: 0;
+}
+
+.divider span {
+    background-color: rgba(255, 255, 255, 0.95);
+    padding: 0 10px;
+    color: #999;
+    font-size: 14px;
+}
+
+#email-login-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+#email-login-form input {
+    padding: 14px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+#email-login-form input:focus {
+    outline: none;
+    border-color: #066466;
+}
+
+.email-login-btn {
+    padding: 14px;
+    background-color: #066466;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+}
+
+.email-login-btn:hover {
+    background-color: #055355;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 100, 102, 0.3);
+}
+
+.signup-link {
+    text-align: center;
+    margin-top: 25px;
+    font-size: 14px;
+    color: #666;
+}
+
+.signup-link a {
+    color: #066466;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.signup-link a:hover {
+    text-decoration: underline;
+}
+
+.lesson-item.completed {
+    color: #4CAF50;
+    font-weight: 500;
+}
+
+.lesson-item.completed::after {
+    content: " ✓";
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.complete-lesson-btn {
+    padding: 12px 24px;
+    background-color: #066466;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 20px;
+}
+
+.complete-lesson-btn:hover {
+    background-color: #055355;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(6, 100, 102, 0.3);
+}

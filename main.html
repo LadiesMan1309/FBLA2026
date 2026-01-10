@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Immersive LFA - Educational Platform</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Firebase SDK -->
+    <script type="module">
+        import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
+        import { getAuth } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-auth.js';
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAQGLXOsHqSW14RzPJ4glnoGVDmsNrps34",
+            authDomain: "fbla2026-d98bf.firebaseapp.com",
+            projectId: "fbla2026-d98bf",
+            storageBucket: "fbla2026-d98bf.firebasestorage.app",
+            messagingSenderId: "817673733104",
+            appId: "1:817673733104:web:9977ef9994e422d1925335"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        window.firebaseAuth = auth;
+    </script>
+    <header>
+        <div class="logo">
+            <span class="logo-immersive">Immersive</span>
+            <span class="logo-lfa">LFA</span>
+        </div>
+        <nav>
+            <button class="nav-tab" id="home-btn">Home</button>
+            <button class="nav-tab" id="session-btn">Book a Private Session</button>
+            <button class="nav-tab" id="learn-btn">Learn</button>
+            <button class="nav-tab" id="auth-btn">Login</button>
+        </nav>
+    </header>
+
+    <main>
+        <div class="login-section" id="login-section" style="display: none;">
+            <div class="login-container">
+                <h2>Welcome Back</h2>
+                <p class="login-subtitle">Sign in to continue your learning journey</p>
+
+                <button class="google-login-btn" id="google-login">
+                    <svg width="18" height="18" viewBox="0 0 18 18">
+                        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                        <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+                        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+                    </svg>
+                    Continue with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <form id="email-login-form">
+                    <input type="email" id="login-email" placeholder="Email address" required>
+                    <input type="password" id="login-password" placeholder="Password" required>
+                    <button type="submit" class="email-login-btn">Sign In</button>
+                </form>
+
+                <p class="signup-link">Don't have an account? <a href="#" id="signup-link">Sign up</a></p>
+            </div>
+        </div>
+
+        <div class="signup-section" id="signup-section" style="display: none;">
+            <div class="login-container">
+                <h2>Create Account</h2>
+                <p class="login-subtitle">Join Immersive LFA and start learning today</p>
+
+                <button class="google-login-btn" id="google-signup">
+                    <svg width="18" height="18" viewBox="0 0 18 18">
+                        <path fill="#4285F4" d="M17.64 9.2c0-.637-.057-1.251-.164-1.84H9v3.481h4.844c-.209 1.125-.843 2.078-1.796 2.717v2.258h2.908c1.702-1.567 2.684-3.874 2.684-6.615z"/>
+                        <path fill="#34A853" d="M9 18c2.43 0 4.467-.806 5.956-2.184l-2.908-2.258c-.806.54-1.837.86-3.048.86-2.344 0-4.328-1.584-5.036-3.711H.957v2.332C2.438 15.983 5.482 18 9 18z"/>
+                        <path fill="#FBBC05" d="M3.964 10.707c-.18-.54-.282-1.117-.282-1.707s.102-1.167.282-1.707V4.961H.957C.347 6.175 0 7.55 0 9s.348 2.825.957 4.039l3.007-2.332z"/>
+                        <path fill="#EA4335" d="M9 3.58c1.321 0 2.508.454 3.44 1.345l2.582-2.58C13.463.891 11.426 0 9 0 5.482 0 2.438 2.017.957 4.961L3.964 7.29C4.672 5.163 6.656 3.58 9 3.58z"/>
+                    </svg>
+                    Sign up with Google
+                </button>
+
+                <div class="divider">
+                    <span>or</span>
+                </div>
+
+                <form id="email-signup-form">
+                    <input type="text" id="signup-name" placeholder="Full Name" required>
+                    <input type="email" id="signup-email" placeholder="Email address" required>
+                    <input type="password" id="signup-password" placeholder="Password (min. 6 characters)" required minlength="6">
+                    <input type="password" id="signup-confirm-password" placeholder="Confirm Password" required>
+                    <button type="submit" class="email-login-btn">Create Account</button>
+                </form>
+
+                <p class="signup-link">Already have an account? <a href="#" id="login-link">Sign in</a></p>
+            </div>
+        </div>
+
+        <div class="hero-section" id="home-section">
+            <h1>Welcome to Immersive LFA</h1>
+            <p>Empowering students through personalized learning</p>
+        </div>
+
+        <div class="courses-section" id="learn-section" style="display: none;">
+            <div class="course-card" data-course="physics">
+                <h2>Physics 1</h2>
+                <ul>
+                    <li>Master fundamental mechanics and motion principles</li>
+                    <li>Explore energy, waves, and thermodynamics</li>
+                    <li>Hands-on problem solving with real-world applications</li>
+                </ul>
+            </div>
+
+            <div class="course-card" data-course="history">
+                <h2>US History</h2>
+                <ul>
+                    <li>Journey from colonial America to modern times</li>
+                    <li>Analyze key events that shaped the nation</li>
+                    <li>Understand political, social, and cultural movements</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="course-view" id="physics-course" style="display: none;">
+            <div class="course-sidebar">
+                <h3>Physics 1</h3>
+                <div class="lesson-list">
+                    <div class="lesson-item" data-lesson="intro">Introduction</div>
+                    <div class="lesson-item" data-lesson="lesson1">Lesson 1: What and Why: Physics</div>
+                    <div class="lesson-item" data-lesson="lesson2">Lesson 2</div>
+                    <div class="lesson-item" data-lesson="lesson3">Lesson 3</div>
+                    <div class="lesson-item" data-lesson="lesson4">Lesson 4</div>
+                    <div class="lesson-item" data-lesson="lesson5">Lesson 5</div>
+                    <div class="lesson-item" data-lesson="lesson6">Lesson 6</div>
+                    <div class="lesson-item" data-lesson="lesson7">Lesson 7</div>
+                    <div class="lesson-item" data-lesson="lesson8">Lesson 8</div>
+                    <div class="lesson-item" data-lesson="final">Final</div>
+                </div>
+            </div>
+            <div class="course-content">
+                <div id="lesson-content">
+                    <h2>Select a lesson to begin</h2>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="script.js"></script>
+</body>
+</html>
