@@ -23,6 +23,7 @@ let signupSection;
 let homeSection;
 let learnSection;
 let physicsCourse;
+let bookingSection;
 let homeBtn;
 let sessionBtn;
 let learnBtn;
@@ -59,6 +60,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     homeSection = document.getElementById('home-section');
     learnSection = document.getElementById('learn-section');
     physicsCourse = document.getElementById('physics-course');
+    bookingSection = document.getElementById('booking-section');
 
     // Get navigation buttons
     homeBtn = document.getElementById('home-btn');
@@ -79,6 +81,7 @@ function hideAllSections() {
     homeSection.style.display = 'none';
     learnSection.style.display = 'none';
     physicsCourse.style.display = 'none';
+    bookingSection.style.display = 'none';
 }
 
 function showLogin() {
@@ -105,6 +108,15 @@ function showLearn() {
     learnSection.style.display = 'flex';
 }
 
+function showBooking() {
+    console.log('showBooking called');
+    console.log('bookingSection:', bookingSection);
+    hideAllSections();
+    bookingSection.style.display = 'flex';
+    console.log('bookingSection display set to flex');
+    loadUserBookings();
+}
+
 function initializeEventListeners() {
     console.log('Initializing event listeners...');
 
@@ -117,6 +129,7 @@ function initializeEventListeners() {
     sessionBtn.addEventListener('click', () => {
         if (isLoggedIn) {
             console.log('Book a Private Session clicked');
+            showBooking();
         } else {
             alert('Immersive LFA wants you to login first to book a private session');
             showLogin();
@@ -290,6 +303,40 @@ function initializeEventListeners() {
         });
     });
 
+    // Booking form submission
+    document.getElementById('booking-form').addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const subject = document.getElementById('booking-subject').value;
+        const date = document.getElementById('booking-date').value;
+        const time = document.getElementById('booking-time').value;
+        const duration = document.getElementById('booking-duration').value;
+        const notes = document.getElementById('booking-notes').value;
+
+        const booking = {
+            id: Date.now().toString(),
+            subject: subject,
+            date: date,
+            time: time,
+            duration: duration,
+            notes: notes,
+            createdAt: new Date().toISOString()
+        };
+
+        saveBooking(booking);
+
+        // Send confirmation email
+        await sendBookingEmail(booking);
+
+        // Clear form
+        document.getElementById('booking-form').reset();
+
+        // Reload bookings list
+        loadUserBookings();
+
+        alert('Immersive LFA: Session booked successfully! We will confirm your booking via email.');
+    });
+
     // Firebase Auth State Observer
     onAuthStateChanged(auth, (user) => {
         if (user) {
@@ -381,4 +428,144 @@ window.markComplete = function(lessonId) {
     });
 
     alert('Immersive LFA: Lesson marked as complete!');
+}
+
+// Booking Management Functions
+function getUserBookings() {
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `bookings_${userId}`;
+    const bookings = localStorage.getItem(key);
+    return bookings ? JSON.parse(bookings) : [];
+}
+
+function saveBooking(booking) {
+    const bookings = getUserBookings();
+    bookings.push(booking);
+
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `bookings_${userId}`;
+    localStorage.setItem(key, JSON.stringify(bookings));
+}
+
+function deleteBooking(bookingId) {
+    let bookings = getUserBookings();
+    bookings = bookings.filter(b => b.id !== bookingId);
+
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `bookings_${userId}`;
+    localStorage.setItem(key, JSON.stringify(bookings));
+}
+
+function loadUserBookings() {
+    const bookings = getUserBookings();
+    const bookingsList = document.getElementById('bookings-list');
+
+    if (!bookingsList) {
+        console.error('Bookings list element not found');
+        return;
+    }
+
+    if (bookings.length === 0) {
+        bookingsList.innerHTML = '<p class="no-bookings">No upcoming sessions scheduled</p>';
+        return;
+    }
+
+    // Sort bookings by date and time
+    bookings.sort((a, b) => {
+        const dateA = new Date(a.date + ' ' + a.time);
+        const dateB = new Date(b.date + ' ' + b.time);
+        return dateA - dateB;
+    });
+
+    bookingsList.innerHTML = bookings.map(booking => {
+        const subjectNames = {
+            'physics': 'Physics 1',
+            'history': 'US History',
+            'sex': 'Sex',
+            'other': 'Other'
+        };
+
+        const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const formattedTime = formatTime(booking.time);
+
+        return `
+            <div class="booking-item">
+                <div class="booking-details">
+                    <h4>${subjectNames[booking.subject] || booking.subject}</h4>
+                    <p><strong>Date:</strong> ${formattedDate}</p>
+                    <p><strong>Time:</strong> ${formattedTime}</p>
+                    <p><strong>Duration:</strong> ${booking.duration} minutes</p>
+                    ${booking.notes ? `<p><strong>Notes:</strong> ${booking.notes}</p>` : ''}
+                </div>
+                <button class="booking-cancel-btn" onclick="cancelBooking('${booking.id}')">Cancel</button>
+            </div>
+        `;
+    }).join('');
+}
+
+function formatTime(time) {
+    const [hour, minute] = time.split(':');
+    const h = parseInt(hour);
+    const ampm = h >= 12 ? 'PM' : 'AM';
+    const hour12 = h % 12 || 12;
+    return `${hour12}:${minute} ${ampm}`;
+}
+
+// Make cancelBooking globally accessible
+window.cancelBooking = function(bookingId) {
+    if (confirm('Immersive LFA: Are you sure you want to cancel this session?')) {
+        deleteBooking(bookingId);
+        loadUserBookings();
+        alert('Immersive LFA: Session cancelled successfully.');
+    }
+}
+
+// Email sending function
+async function sendBookingEmail(booking) {
+    try {
+        const subjectNames = {
+            'physics': 'Physics 1',
+            'history': 'US History',
+            'sex': 'Sex',
+            'other': 'Other'
+        };
+
+        const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
+            weekday: 'long',
+            year: 'numeric',
+            month: 'long',
+            day: 'numeric'
+        });
+
+        const formattedTime = formatTime(booking.time);
+
+        const templateParams = {
+            to_email: auth.currentUser?.email || 'user@example.com',
+            to_name: auth.currentUser?.displayName || 'Student',
+            subject_name: subjectNames[booking.subject] || booking.subject,
+            booking_date: formattedDate,
+            booking_time: formattedTime,
+            booking_duration: booking.duration + ' minutes',
+            booking_notes: booking.notes || 'No additional notes',
+            user_email: auth.currentUser?.email || 'Not provided'
+        };
+
+        // EmailJS service configured
+        await emailjs.send(
+            'service_mn5u6h9',     // Your EmailJS service ID
+            'template_ndew2yh',    // Your EmailJS template ID
+            templateParams
+        );
+
+        console.log('Email sent successfully');
+    } catch (error) {
+        console.error('Email sending failed:', error);
+        // Don't show error to user - booking is still saved
+    }
 }
