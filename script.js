@@ -81,6 +81,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Initialize all event listeners
     console.log('DOM loaded, Firebase ready, initializing...');
     initializeEventListeners();
+    initTestimonialsTicker();
     console.log('Initialization complete');
 });
 
@@ -429,7 +430,7 @@ function initializeEventListeners() {
             userEmail = user.email;
             authBtn.textContent = 'Logout';
             homeBtn.style.display = 'block';
-            sessionBtn.style.display = 'block';
+            scheduleBtn.style.display = 'block';
             learnBtn.style.display = 'block';
             console.log('User logged in:', userEmail);
 
@@ -447,7 +448,7 @@ function initializeEventListeners() {
             userEmail = '';
             authBtn.textContent = 'Login';
             homeBtn.style.display = 'block';
-            sessionBtn.style.display = 'block';
+            scheduleBtn.style.display = 'block';
             learnBtn.style.display = 'block';
             console.log('User logged out');
 
@@ -1063,6 +1064,59 @@ function showSources() {
 }
 
 // Format dates for group sessions
+
+
+// Auto-scrolling testimonial ticker (Refibre-style sideways scroll, no clicks)
+function initTestimonialsTicker() {
+    const viewport = document.querySelector('#testimonials-ticker .ticker__viewport');
+    const track = document.getElementById('testimonials-track');
+    if (!viewport || !track) return;
+
+    // Respect user accessibility settings
+    const reduceMotion = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reduceMotion) return;
+
+    // Snapshot the original testimonials exactly once
+    if (!track.dataset.originalMarkup) {
+        track.dataset.originalMarkup = track.innerHTML;
+    }
+
+    const rebuild = () => {
+        track.innerHTML = track.dataset.originalMarkup;
+
+        // Force layout so measurements are correct
+        const originalWidth = track.scrollWidth;
+        if (!originalWidth) return;
+
+        const originals = Array.from(track.children);
+
+        // Always add at least one full clone set for seamless looping
+        originals.forEach(node => track.appendChild(node.cloneNode(true)));
+
+        // Add more clones if needed to avoid seeing empty space
+        const targetWidth = viewport.clientWidth + (originalWidth * 1.5);
+        while (track.scrollWidth < targetWidth) {
+            originals.forEach(node => track.appendChild(node.cloneNode(true)));
+        }
+
+        // Tune speed (px per second) for a smooth, premium-feeling scroll
+        const pxPerSecond = 55;
+        const duration = Math.max(18, Math.min(90, originalWidth / pxPerSecond));
+
+        track.style.setProperty('--ticker-distance', `${originalWidth}px`);
+        track.style.setProperty('--ticker-duration', `${duration}s`);
+    };
+
+    rebuild();
+
+    let resizeTimer;
+    window.addEventListener('resize', () => {
+        clearTimeout(resizeTimer);
+        resizeTimer = setTimeout(rebuild, 150);
+    });
+}
+
+
 document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const sessionDates = document.querySelectorAll('.session-date');

@@ -9,7 +9,6 @@
             "request": "launch",
             "name": "Open main.html",
             "file": "${workspaceFolder}/main.html",
-            "runtimeExecutable": "C:\\Users\\hcyar\\AppData\\Local\\Programs\\Opera GX\\opera.exe"
         }
     ]
 }
