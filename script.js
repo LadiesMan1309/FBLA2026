@@ -575,7 +575,8 @@ function loadUserBookings() {
         const subjectNames = {
             'physics': 'Physics 1',
             'history': 'US History',
-            'other': 'Other'
+            'other': 'Other',
+            'group-study': 'Group Study Session'
         };
 
         const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
@@ -586,13 +587,29 @@ function loadUserBookings() {
         });
 
         const formattedTime = formatTime(booking.time);
+        
+        // For group sessions, show the title; for private sessions, show subject name
+        const displayTitle = booking.type === 'group' 
+            ? (booking.title || 'Group Study Session')
+            : (subjectNames[booking.subject] || booking.subject);
+        
+        // Calculate end time for display
+        const [hour, minute] = booking.time.split(':');
+        const startMinutes = parseInt(hour) * 60 + parseInt(minute);
+        const endMinutes = startMinutes + parseInt(booking.duration);
+        const endHour = Math.floor(endMinutes / 60);
+        const endMin = endMinutes % 60;
+        const endTime = formatTime(`${String(endHour).padStart(2, '0')}:${String(endMin).padStart(2, '0')}`);
+        const timeDisplay = booking.type === 'group' 
+            ? `${formattedTime} - ${endTime}`
+            : formattedTime;
 
         return `
             <div class="booking-item">
                 <div class="booking-details">
-                    <h4>${subjectNames[booking.subject] || booking.subject}</h4>
+                    <h4>${displayTitle}${booking.type === 'group' ? ' <span class="group-badge">Group</span>' : ''}</h4>
                     <p><strong>Date:</strong> ${formattedDate}</p>
-                    <p><strong>Time:</strong> ${formattedTime}</p>
+                    <p><strong>Time:</strong> ${timeDisplay}</p>
                     <p><strong>Duration:</strong> ${booking.duration} minutes</p>
                     ${booking.notes ? `<p><strong>Notes:</strong> ${booking.notes}</p>` : ''}
                 </div>
@@ -907,8 +924,120 @@ window.closeQuiz = function() {
     }
 };
 
-window.joinGroupSession = function(sessionId) {
-    alert(`Immersive LFA: You have joined the group study session!`);
+window.joinGroupSession = function(sessionId, buttonElement) {
+    // Find the group session card that was clicked
+    const button = buttonElement || event?.target;
+    const sessionCard = button.closest('.group-session-card');
+    
+    if (!sessionCard) {
+        alert('Immersive LFA: Could not find session details.');
+        return;
+    }
+    
+    // Extract session details from the card
+    const title = sessionCard.querySelector('h4')?.textContent || 'Group Study Session';
+    const dateElement = sessionCard.querySelector('.session-date');
+    
+    // Get date from data-date attribute (preferred) or text content
+    let sessionDate = '';
+    if (dateElement) {
+        sessionDate = dateElement.getAttribute('data-date') || dateElement.textContent.trim();
+        // If date is formatted, try to extract YYYY-MM-DD format
+        if (!sessionDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            // Try to parse formatted date back to YYYY-MM-DD
+            try {
+                const parsedDate = new Date(sessionDate);
+                if (!isNaN(parsedDate.getTime())) {
+                    sessionDate = parsedDate.toISOString().split('T')[0];
+                } else {
+                    sessionDate = new Date().toISOString().split('T')[0];
+                }
+            } catch (e) {
+                sessionDate = new Date().toISOString().split('T')[0];
+            }
+        }
+    }
+    
+    // Get time text - find the paragraph containing "Time"
+    const timeParagraph = Array.from(sessionCard.querySelectorAll('p')).find(p => 
+        p.textContent.includes('Time:')
+    );
+    const timeText = timeParagraph?.textContent || '';
+    
+    // Parse time range (e.g., "3:00 PM - 4:30 PM")
+    const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)/);
+    let startTime = '';
+    let duration = 90; // default 90 minutes
+    
+    if (timeMatch) {
+        const startHour = parseInt(timeMatch[1]);
+        const startMin = timeMatch[2];
+        const startAmPm = timeMatch[3];
+        const endHour = parseInt(timeMatch[4]);
+        const endMin = timeMatch[5];
+        const endAmPm = timeMatch[6];
+        
+        // Convert to 24-hour format for start time
+        let startHour24 = startHour;
+        if (startAmPm === 'PM' && startHour !== 12) startHour24 += 12;
+        if (startAmPm === 'AM' && startHour === 12) startHour24 = 0;
+        startTime = `${String(startHour24).padStart(2, '0')}:${startMin}`;
+        
+        // Calculate duration
+        let endHour24 = endHour;
+        if (endAmPm === 'PM' && endHour !== 12) endHour24 += 12;
+        if (endAmPm === 'AM' && endHour === 12) endHour24 = 0;
+        
+        const startMinutes = startHour24 * 60 + parseInt(startMin);
+        const endMinutes = endHour24 * 60 + parseInt(endMin);
+        duration = endMinutes - startMinutes;
+    } else {
+        // Fallback: try to extract just start time
+        const simpleTimeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/);
+        if (simpleTimeMatch) {
+            let hour = parseInt(simpleTimeMatch[1]);
+            const min = simpleTimeMatch[2];
+            const ampm = simpleTimeMatch[3];
+            if (ampm === 'PM' && hour !== 12) hour += 12;
+            if (ampm === 'AM' && hour === 12) hour = 0;
+            startTime = `${String(hour).padStart(2, '0')}:${min}`;
+        }
+    }
+    
+    // If we still don't have a date, use a default
+    if (!sessionDate) {
+        sessionDate = new Date().toISOString().split('T')[0];
+    }
+    
+    // Create booking object for group session
+    const booking = {
+        id: Date.now().toString(),
+        type: 'group',
+        title: title,
+        subject: 'group-study',
+        date: sessionDate,
+        time: startTime || '15:00',
+        duration: duration,
+        sessionId: sessionId,
+        createdAt: new Date().toISOString()
+    };
+    
+    // Check if user is already registered for this session
+    const existingBookings = getUserBookings();
+    const alreadyJoined = existingBookings.some(b => b.sessionId === sessionId);
+    
+    if (alreadyJoined) {
+        alert('Immersive LFA: You have already joined this group study session!');
+        return;
+    }
+    
+    // Save the booking
+    saveBooking(booking);
+    
+    // Reload bookings list to show the new session
+    loadUserBookings();
+    
+    alert(`Immersive LFA: You have joined the group study session "${title}"!`);
 };
 
 window.downloadFile = function(filename) {
@@ -938,17 +1067,24 @@ document.addEventListener('DOMContentLoaded', () => {
     setTimeout(() => {
         const sessionDates = document.querySelectorAll('.session-date');
         sessionDates.forEach(dateEl => {
-            const dateStr = dateEl.textContent;
+            // Use data-date attribute if available, otherwise use textContent
+            const dateStr = dateEl.getAttribute('data-date') || dateEl.textContent;
             if (dateStr) {
                 try {
                     const date = new Date(dateStr);
-                    const formatted = date.toLocaleDateString('en-US', {
-                        weekday: 'long',
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    });
-                    dateEl.textContent = formatted;
+                    if (!isNaN(date.getTime())) {
+                        const formatted = date.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        dateEl.textContent = formatted;
+                        // Preserve data-date attribute for later use
+                        if (!dateEl.getAttribute('data-date')) {
+                            dateEl.setAttribute('data-date', dateStr);
+                        }
+                    }
                 } catch (e) {
                     // Keep original if parsing fails
                 }
