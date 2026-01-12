@@ -42,7 +42,9 @@
         </div>
         <nav>
             <button class="nav-tab" id="home-btn">Home</button>
-            <button class="nav-tab" id="session-btn">Book a Private Session</button>
+            <button class="nav-tab" id="schedule-btn">Schedule</button>
+            <button class="nav-tab" id="dashboard-btn">Dashboard</button>
+            <button class="nav-tab" id="resources-btn">Resources</button>
             <button class="nav-tab" id="learn-btn">Learn</button>
             <button class="nav-tab" id="auth-btn">Login</button>
         </nav>
@@ -109,60 +111,89 @@
             </div>
         </div>
 
-        <div class="booking-section" id="booking-section" style="display: none;">
-            <div class="booking-container">
-                <h2>Book a Private Session</h2>
-                <p class="booking-subtitle">Schedule one-on-one tutoring with our expert instructors</p>
+        <div class="schedule-section" id="schedule-section" style="display: none;">
+            <div class="schedule-container">
+                <h2>Schedule Sessions</h2>
+                <p class="schedule-subtitle">Book private tutoring or join group study sessions</p>
 
-                <form id="booking-form">
-                    <div class="form-group">
-                        <label for="booking-subject">Subject</label>
-                        <select id="booking-subject" required>
-                            <option value="">Select a subject</option>
-                            <option value="physics">Physics 1</option>
-                            <option value="history">US History</option>
-                        </select>
+                <div class="schedule-tabs">
+                    <button class="schedule-tab active" id="private-tab">Private Session</button>
+                    <button class="schedule-tab" id="group-tab">Group Study</button>
+                </div>
+
+                <div class="tab-content active" id="private-content">
+                    <form id="booking-form">
+                        <div class="form-group">
+                            <label for="booking-subject">Subject</label>
+                            <select id="booking-subject" required>
+                                <option value="">Select a subject</option>
+                                <option value="physics">Physics 1</option>
+                                <option value="history">US History</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="booking-date">Preferred Date</label>
+                            <input type="date" id="booking-date" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="booking-time">Preferred Time</label>
+                            <select id="booking-time" required>
+                                <option value="">Select a time</option>
+                                <option value="09:00">9:00 AM</option>
+                                <option value="10:00">10:00 AM</option>
+                                <option value="11:00">11:00 AM</option>
+                                <option value="12:00">12:00 PM</option>
+                                <option value="13:00">1:00 PM</option>
+                                <option value="14:00">2:00 PM</option>
+                                <option value="15:00">3:00 PM</option>
+                                <option value="16:00">4:00 PM</option>
+                                <option value="17:00">5:00 PM</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="booking-duration">Session Duration</label>
+                            <select id="booking-duration" required>
+                                <option value="">Select duration</option>
+                                <option value="30">30 minutes</option>
+                                <option value="60">1 hour</option>
+                                <option value="90">1.5 hours</option>
+                                <option value="120">2 hours</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="booking-notes">Additional Notes (Optional)</label>
+                            <textarea id="booking-notes" rows="4" placeholder="Let us know what topics you'd like to focus on..."></textarea>
+                        </div>
+
+                        <button type="submit" class="booking-submit-btn">Book Private Session</button>
+                    </form>
+                </div>
+
+                <div class="tab-content" id="group-content">
+                    <div class="group-sessions">
+                        <h3>Upcoming Group Study Sessions</h3>
+                        <div id="group-sessions-list">
+                            <div class="group-session-card">
+                                <h4>Physics 1 Unit 1 Review</h4>
+                                <p><strong>Date:</strong> <span class="session-date">2026-01-15</span></p>
+                                <p><strong>Time:</strong> 3:00 PM - 4:30 PM</p>
+                                <p><strong>Participants:</strong> 4/8 spots filled</p>
+                                <button class="join-group-btn" onclick="joinGroupSession('physics-review-1')">Join Session</button>
+                            </div>
+                            <div class="group-session-card">
+                                <h4>Problem Solving Workshop</h4>
+                                <p><strong>Date:</strong> <span class="session-date">2026-01-18</span></p>
+                                <p><strong>Time:</strong> 2:00 PM - 3:30 PM</p>
+                                <p><strong>Participants:</strong> 2/6 spots filled</p>
+                                <button class="join-group-btn" onclick="joinGroupSession('problem-solving-1')">Join Session</button>
+                            </div>
+                        </div>
                     </div>
-
-                    <div class="form-group">
-                        <label for="booking-date">Preferred Date</label>
-                        <input type="date" id="booking-date" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="booking-time">Preferred Time</label>
-                        <select id="booking-time" required>
-                            <option value="">Select a time</option>
-                            <option value="09:00">9:00 AM</option>
-                            <option value="10:00">10:00 AM</option>
-                            <option value="11:00">11:00 AM</option>
-                            <option value="12:00">12:00 PM</option>
-                            <option value="13:00">1:00 PM</option>
-                            <option value="14:00">2:00 PM</option>
-                            <option value="15:00">3:00 PM</option>
-                            <option value="16:00">4:00 PM</option>
-                            <option value="17:00">5:00 PM</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="booking-duration">Session Duration</label>
-                        <select id="booking-duration" required>
-                            <option value="">Select duration</option>
-                            <option value="30">30 minutes</option>
-                            <option value="60">1 hour</option>
-                            <option value="90">1.5 hours</option>
-                            <option value="120">2 hours</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="booking-notes">Additional Notes (Optional)</label>
-                        <textarea id="booking-notes" rows="4" placeholder="Let us know what topics you'd like to focus on..."></textarea>
-                    </div>
-
-                    <button type="submit" class="booking-submit-btn">Book Session</button>
-                </form>
+                </div>
 
                 <div class="my-bookings" id="my-bookings">
                     <h3>My Upcoming Sessions</h3>
@@ -198,18 +229,15 @@
 
         <div class="course-view" id="physics-course" style="display: none;">
             <div class="course-sidebar">
-                <h3>Physics 1</h3>
+                <h3>Physics 1 - Unit 1</h3>
                 <div class="lesson-list">
-                    <div class="lesson-item" data-lesson="intro">Introduction</div>
-                    <div class="lesson-item" data-lesson="lesson1">Lesson 1: What and Why: Physics</div>
-                    <div class="lesson-item" data-lesson="lesson2">Lesson 2</div>
-                    <div class="lesson-item" data-lesson="lesson3">Lesson 3</div>
-                    <div class="lesson-item" data-lesson="lesson4">Lesson 4</div>
-                    <div class="lesson-item" data-lesson="lesson5">Lesson 5</div>
-                    <div class="lesson-item" data-lesson="lesson6">Lesson 6</div>
-                    <div class="lesson-item" data-lesson="lesson7">Lesson 7</div>
-                    <div class="lesson-item" data-lesson="lesson8">Lesson 8</div>
-                    <div class="lesson-item" data-lesson="final">Final</div>
+                    <div class="lesson-item" data-lesson="intro">Introduction to Physics</div>
+                    <div class="lesson-item" data-lesson="lesson1">Lesson 1: What is Physics?</div>
+                    <div class="lesson-item" data-lesson="lesson2">Lesson 2: Measurement & Units</div>
+                    <div class="lesson-item" data-lesson="lesson3">Lesson 3: Motion in One Dimension</div>
+                    <div class="lesson-item" data-lesson="lesson4">Lesson 4: Vectors & Scalars</div>
+                    <div class="lesson-item" data-lesson="lesson5">Lesson 5: Two-Dimensional Motion</div>
+                    <div class="lesson-item" data-lesson="quiz1">Unit 1 Quiz</div>
                 </div>
             </div>
             <div class="course-content">
@@ -218,8 +246,444 @@
                 </div>
             </div>
         </div>
+
+        <div class="dashboard-section" id="dashboard-section" style="display: none;">
+            <div class="dashboard-container">
+                <h2>Student Dashboard</h2>
+                <div class="dashboard-grid">
+                    <div class="dashboard-card">
+                        <h3>Learning Progress</h3>
+                        <div class="progress-circle" id="progress-circle">
+                            <svg class="progress-ring" width="120" height="120">
+                                <circle class="progress-ring-circle" stroke="#066466" stroke-width="8" fill="transparent" r="52" cx="60" cy="60"/>
+                            </svg>
+                            <div class="progress-text">
+                                <span id="progress-percent">0%</span>
+                            </div>
+                        </div>
+                        <p id="lessons-completed">0 of 6 lessons completed</p>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Recent Activity</h3>
+                        <div id="recent-activity">
+                            <p class="no-activity">No recent activity</p>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Performance Metrics</h3>
+                        <div class="metrics-list">
+                            <div class="metric-item">
+                                <span class="metric-label">Average Quiz Score:</span>
+                                <span class="metric-value" id="avg-quiz-score">--</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Time Spent:</span>
+                                <span class="metric-value" id="time-spent">0 hours</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Streak:</span>
+                                <span class="metric-value" id="streak">0 days</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="dashboard-card">
+                        <h3>Website Analytics</h3>
+                        <div class="analytics-list">
+                            <div class="metric-item">
+                                <span class="metric-label">User Engagement Rate:</span>
+                                <span class="metric-value">87%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Average Session Duration:</span>
+                                <span class="metric-value">24 minutes</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Bounce Rate:</span>
+                                <span class="metric-value">12%</span>
+                            </div>
+                            <div class="metric-item">
+                                <span class="metric-label">Page Views:</span>
+                                <span class="metric-value" id="page-views">0</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="resources-section" id="resources-section" style="display: none;">
+            <div class="resources-container">
+                <h2>Learning Resources</h2>
+                <p class="resources-subtitle">Interactive tools, videos, quizzes, and downloadable materials</p>
+
+                <div class="resources-tabs">
+                    <button class="resource-tab active" data-resource="videos">Videos</button>
+                    <button class="resource-tab" data-resource="quizzes">Quizzes</button>
+                    <button class="resource-tab" data-resource="downloads">Downloads</button>
+                </div>
+
+                <div class="resource-content active" id="videos-content">
+                    <h3>Educational Videos</h3>
+                    <div class="video-grid">
+                        <div class="video-card">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/7kMQqJ9Iyhg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <h4>Introduction to Physics</h4>
+                            <p>Learn the fundamentals of physics and why it matters</p>
+                        </div>
+                        <div class="video-card">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/1op3ydzBUPY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <h4>Motion in One Dimension</h4>
+                            <p>Understanding position, velocity, and acceleration</p>
+                        </div>
+                        <div class="video-card">
+                            <div class="video-wrapper">
+                                <iframe src="https://www.youtube.com/embed/ihNZlp7iUHE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                            </div>
+                            <h4>Vectors and Scalars</h4>
+                            <p>Master the difference between vectors and scalars</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resource-content" id="quizzes-content">
+                    <h3>Interactive Quizzes</h3>
+                    <div class="quiz-list">
+                        <div class="quiz-card" onclick="startQuiz('physics-basics')">
+                            <h4>Physics Basics Quiz</h4>
+                            <p>Test your understanding of fundamental physics concepts</p>
+                            <span class="quiz-status">Available</span>
+                        </div>
+                        <div class="quiz-card" onclick="startQuiz('motion-quiz')">
+                            <h4>Motion & Kinematics Quiz</h4>
+                            <p>Challenge yourself with motion problems</p>
+                            <span class="quiz-status">Available</span>
+                        </div>
+                        <div class="quiz-card" onclick="startQuiz('vectors-quiz')">
+                            <h4>Vectors & Scalars Quiz</h4>
+                            <p>Master vector operations and calculations</p>
+                            <span class="quiz-status">Available</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="resource-content" id="downloads-content">
+                    <h3>Downloadable Materials</h3>
+                    <div class="download-list">
+                        <div class="download-card">
+                            <div class="download-icon">📄</div>
+                            <div class="download-info">
+                                <h4>Physics 1 Unit 1 Study Guide</h4>
+                                <p>Comprehensive review of Unit 1 concepts</p>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('study-guide.pdf')">Download PDF</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="download-icon">📊</div>
+                            <div class="download-info">
+                                <h4>Formula Sheet</h4>
+                                <p>All essential formulas for Physics 1 Unit 1</p>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('formula-sheet.pdf')">Download PDF</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="download-icon">📝</div>
+                            <div class="download-info">
+                                <h4>Practice Problems</h4>
+                                <p>Extra practice problems with solutions</p>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('practice-problems.pdf')">Download PDF</button>
+                        </div>
+                        <div class="download-card">
+                            <div class="download-icon">📐</div>
+                            <div class="download-info">
+                                <h4>Lab Worksheets</h4>
+                                <p>Hands-on lab activities and worksheets</p>
+                            </div>
+                            <button class="download-btn" onclick="downloadFile('lab-worksheets.pdf')">Download PDF</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="quiz-modal" id="quiz-modal" style="display: none;">
+            <div class="quiz-container">
+                <button class="close-quiz-btn" onclick="closeQuiz()">&times;</button>
+                <h2 id="quiz-title">Quiz</h2>
+                <div id="quiz-content"></div>
+                <div id="quiz-results" style="display: none;"></div>
+            </div>
+        </div>
+
+        <div class="sources-section" id="sources-section" style="display: none;">
+            <div class="sources-container">
+                <h2>Sources & Citations</h2>
+                <div class="sources-content">
+                    <h3>Educational Content Sources</h3>
+                    <ul class="sources-list">
+                        <li>Khan Academy. (2024). <em>Physics Library</em>. Retrieved from https://www.khanacademy.org/science/physics</li>
+                        <li>OpenStax. (2024). <em>College Physics</em>. OpenStax CNX. https://openstax.org/details/books/college-physics</li>
+                        <li>Crash Course. (2024). <em>Physics</em>. YouTube Channel. https://www.youtube.com/user/crashcourse</li>
+                    </ul>
+                    <h3>Images & Graphics</h3>
+                    <ul class="sources-list">
+                        <li>Unsplash. (2024). <em>Free high-resolution photos</em>. https://unsplash.com</li>
+                        <li>Pexels. (2024). <em>Free stock photos</em>. https://www.pexels.com</li>
+                    </ul>
+                    <h3>Technology & Frameworks</h3>
+                    <ul class="sources-list">
+                        <li>Firebase. (2024). <em>Firebase Authentication</em>. Google LLC. https://firebase.google.com</li>
+                        <li>EmailJS. (2024). <em>EmailJS Service</em>. https://www.emailjs.com</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
     </main>
 
+    <footer>
+        <div class="footer-content">
+            <p>&copy; 2026 Immersive LFA. All rights reserved.</p>
+            <button class="footer-link" onclick="showSources()">Sources & Citations</button>
+        </div>
+    </footer>
+
     <script type="module" src="script.js"></script>
+    <script>
+        // Lesson content data
+        const lessonContent = {
+            intro: {
+                title: "Introduction to Physics",
+                content: `
+                    <h2>Welcome to Physics 1 - Unit 1</h2>
+                    <p>Physics is the study of matter, energy, and their interactions. In this unit, you'll explore fundamental concepts that form the foundation of all physics.</p>
+                    <h3>What You'll Learn:</h3>
+                    <ul>
+                        <li>Understanding what physics is and why it matters</li>
+                        <li>Measurement systems and units</li>
+                        <li>Motion in one and two dimensions</li>
+                        <li>Vectors and scalars</li>
+                    </ul>
+                    <h3>Learning Objectives:</h3>
+                    <p>By the end of this unit, you will be able to:</p>
+                    <ul>
+                        <li>Define physics and explain its role in understanding the natural world</li>
+                        <li>Convert between different units of measurement</li>
+                        <li>Analyze motion using position, velocity, and acceleration</li>
+                        <li>Distinguish between vectors and scalars</li>
+                        <li>Solve problems involving two-dimensional motion</li>
+                    </ul>
+                `
+            },
+            lesson1: {
+                title: "Lesson 1: What is Physics?",
+                content: `
+                    <h2>What is Physics?</h2>
+                    <p>Physics is the branch of science that deals with the structure of matter and the interactions between the fundamental constituents of the observable universe.</p>
+                    
+                    <h3>Key Concepts:</h3>
+                    <h4>1. The Scientific Method</h4>
+                    <p>Physics uses the scientific method to understand natural phenomena:</p>
+                    <ul>
+                        <li><strong>Observation:</strong> Noticing patterns in nature</li>
+                        <li><strong>Hypothesis:</strong> Proposing explanations</li>
+                        <li><strong>Experimentation:</strong> Testing hypotheses</li>
+                        <li><strong>Theory:</strong> Well-tested explanations</li>
+                    </ul>
+                    
+                    <h4>2. Branches of Physics</h4>
+                    <ul>
+                        <li><strong>Mechanics:</strong> Motion and forces</li>
+                        <li><strong>Thermodynamics:</strong> Heat and temperature</li>
+                        <li><strong>Electromagnetism:</strong> Electricity and magnetism</li>
+                        <li><strong>Optics:</strong> Light and vision</li>
+                        <li><strong>Modern Physics:</strong> Quantum mechanics and relativity</li>
+                    </ul>
+                    
+                    <h4>3. Why Study Physics?</h4>
+                    <p>Physics helps us understand:</p>
+                    <ul>
+                        <li>How the universe works at the most fundamental level</li>
+                        <li>The principles behind technology we use every day</li>
+                        <li>Natural phenomena from the smallest particles to the largest galaxies</li>
+                    </ul>
+                `
+            },
+            lesson2: {
+                title: "Lesson 2: Measurement & Units",
+                content: `
+                    <h2>Measurement & Units</h2>
+                    <p>Accurate measurement is essential in physics. We use the International System of Units (SI) as the standard.</p>
+                    
+                    <h3>SI Base Units:</h3>
+                    <ul>
+                        <li><strong>Length:</strong> meter (m)</li>
+                        <li><strong>Mass:</strong> kilogram (kg)</li>
+                        <li><strong>Time:</strong> second (s)</li>
+                        <li><strong>Temperature:</strong> kelvin (K)</li>
+                        <li><strong>Electric Current:</strong> ampere (A)</li>
+                    </ul>
+                    
+                    <h3>Unit Conversions:</h3>
+                    <p>Common conversion factors:</p>
+                    <ul>
+                        <li>1 km = 1000 m</li>
+                        <li>1 m = 100 cm</li>
+                        <li>1 hour = 3600 seconds</li>
+                        <li>1 kg = 1000 g</li>
+                    </ul>
+                    
+                    <h3>Significant Figures:</h3>
+                    <p>Significant figures indicate the precision of a measurement. Rules:</p>
+                    <ul>
+                        <li>All non-zero digits are significant</li>
+                        <li>Zeros between non-zero digits are significant</li>
+                        <li>Leading zeros are not significant</li>
+                        <li>Trailing zeros after a decimal point are significant</li>
+                    </ul>
+                    
+                    <h3>Example Problem:</h3>
+                    <p>Convert 5.2 km to meters:</p>
+                    <p><strong>Solution:</strong> 5.2 km × (1000 m / 1 km) = 5200 m</p>
+                `
+            },
+            lesson3: {
+                title: "Lesson 3: Motion in One Dimension",
+                content: `
+                    <h2>Motion in One Dimension</h2>
+                    <p>One-dimensional motion occurs when an object moves along a straight line.</p>
+                    
+                    <h3>Key Terms:</h3>
+                    <ul>
+                        <li><strong>Position (x):</strong> Location of an object relative to a reference point</li>
+                        <li><strong>Displacement (Δx):</strong> Change in position (final - initial)</li>
+                        <li><strong>Distance:</strong> Total path length traveled</li>
+                        <li><strong>Velocity (v):</strong> Rate of change of position (displacement/time)</li>
+                        <li><strong>Speed:</strong> Magnitude of velocity (distance/time)</li>
+                        <li><strong>Acceleration (a):</strong> Rate of change of velocity</li>
+                    </ul>
+                    
+                    <h3>Equations of Motion:</h3>
+                    <p>For constant acceleration:</p>
+                    <ul>
+                        <li>v = v₀ + at</li>
+                        <li>x = x₀ + v₀t + ½at²</li>
+                        <li>v² = v₀² + 2a(x - x₀)</li>
+                    </ul>
+                    <p>Where:</p>
+                    <ul>
+                        <li>v = final velocity</li>
+                        <li>v₀ = initial velocity</li>
+                        <li>a = acceleration</li>
+                        <li>t = time</li>
+                        <li>x = final position</li>
+                        <li>x₀ = initial position</li>
+                    </ul>
+                    
+                    <h3>Example Problem:</h3>
+                    <p>A car starts from rest and accelerates at 2 m/s² for 5 seconds. What is its final velocity?</p>
+                    <p><strong>Given:</strong> v₀ = 0 m/s, a = 2 m/s², t = 5 s</p>
+                    <p><strong>Solution:</strong> v = v₀ + at = 0 + (2)(5) = 10 m/s</p>
+                `
+            },
+            lesson4: {
+                title: "Lesson 4: Vectors & Scalars",
+                content: `
+                    <h2>Vectors & Scalars</h2>
+                    <p>Understanding the difference between vectors and scalars is crucial in physics.</p>
+                    
+                    <h3>Scalars:</h3>
+                    <p>Quantities that have magnitude only (no direction):</p>
+                    <ul>
+                        <li>Mass (kg)</li>
+                        <li>Temperature (°C)</li>
+                        <li>Time (s)</li>
+                        <li>Distance (m)</li>
+                        <li>Speed (m/s)</li>
+                    </ul>
+                    
+                    <h3>Vectors:</h3>
+                    <p>Quantities that have both magnitude and direction:</p>
+                    <ul>
+                        <li>Displacement (m)</li>
+                        <li>Velocity (m/s)</li>
+                        <li>Acceleration (m/s²)</li>
+                        <li>Force (N)</li>
+                    </ul>
+                    
+                    <h3>Vector Representation:</h3>
+                    <p>Vectors are represented by arrows:</p>
+                    <ul>
+                        <li>Length = magnitude</li>
+                        <li>Direction = direction of the arrow</li>
+                    </ul>
+                    
+                    <h3>Vector Addition:</h3>
+                    <p>Vectors can be added using:</p>
+                    <ul>
+                        <li><strong>Graphical Method:</strong> Head-to-tail method</li>
+                        <li><strong>Component Method:</strong> Break into x and y components</li>
+                    </ul>
+                    
+                    <h3>Example:</h3>
+                    <p>If you walk 3 m east, then 4 m north, your displacement is 5 m northeast (using Pythagorean theorem).</p>
+                `
+            },
+            lesson5: {
+                title: "Lesson 5: Two-Dimensional Motion",
+                content: `
+                    <h2>Two-Dimensional Motion</h2>
+                    <p>Motion in two dimensions involves movement in both x and y directions simultaneously.</p>
+                    
+                    <h3>Projectile Motion:</h3>
+                    <p>Projectile motion is motion under the influence of gravity only. Key characteristics:</p>
+                    <ul>
+                        <li>Horizontal velocity is constant (no horizontal acceleration)</li>
+                        <li>Vertical acceleration is constant (g = 9.8 m/s² downward)</li>
+                        <li>Motion in x and y directions are independent</li>
+                    </ul>
+                    
+                    <h3>Equations for Projectile Motion:</h3>
+                    <p><strong>Horizontal (x-direction):</strong></p>
+                    <ul>
+                        <li>vₓ = v₀ₓ (constant)</li>
+                        <li>x = v₀ₓt</li>
+                    </ul>
+                    <p><strong>Vertical (y-direction):</strong></p>
+                    <ul>
+                        <li>vᵧ = v₀ᵧ - gt</li>
+                        <li>y = y₀ + v₀ᵧt - ½gt²</li>
+                    </ul>
+                    
+                    <h3>Key Concepts:</h3>
+                    <ul>
+                        <li><strong>Range:</strong> Horizontal distance traveled</li>
+                        <li><strong>Maximum Height:</strong> Highest point reached</li>
+                        <li><strong>Time of Flight:</strong> Total time in the air</li>
+                    </ul>
+                    
+                    <h3>Example Problem:</h3>
+                    <p>A ball is thrown horizontally from a height of 20 m with a speed of 10 m/s. How long does it take to hit the ground?</p>
+                    <p><strong>Solution:</strong> Use y = y₀ + v₀ᵧt - ½gt²</p>
+                    <p>0 = 20 + 0 - ½(9.8)t²</p>
+                    <p>t = √(40/9.8) ≈ 2.02 seconds</p>
+                `
+            },
+            quiz1: {
+                title: "Unit 1 Quiz",
+                content: `
+                    <h2>Unit 1 Quiz</h2>
+                    <p>Test your understanding of Physics 1 Unit 1 concepts.</p>
+                    <button class="start-quiz-btn" onclick="startQuiz('unit1-final')">Start Quiz</button>
+                `
+            }
+        };
+
+        // Make lessonContent globally accessible
+        window.lessonContent = lessonContent;
+    </script>
 </body>
 </html>
