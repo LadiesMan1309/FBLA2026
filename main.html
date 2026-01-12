@@ -7,6 +7,10 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- WebGL Animated Background -->
+    <div class="webgl-background">
+        <canvas id="webgl-canvas"></canvas>
+    </div>
     <!-- EmailJS SDK -->
     <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
     <script type="text/javascript">
@@ -51,6 +55,7 @@
     </header>
 
     <main>
+        <div class="content-container">
         <div class="login-section" id="login-section" style="display: none;">
             <div class="login-container">
                 <h2>Welcome Back</h2>
@@ -442,6 +447,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </main>
 
     <footer>
@@ -451,6 +457,7 @@
         </div>
     </footer>
 
+    <script src="webgl-background.js"></script>
     <script type="module" src="script.js"></script>
     <script>
         // Lesson content data
