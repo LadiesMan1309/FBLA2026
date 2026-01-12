@@ -481,7 +481,6 @@ function loadUserBookings() {
         const subjectNames = {
             'physics': 'Physics 1',
             'history': 'US History',
-            'sex': 'Sex',
             'other': 'Other'
         };
 
@@ -528,11 +527,13 @@ window.cancelBooking = function(bookingId) {
 
 // Email sending function
 async function sendBookingEmail(booking) {
+    console.log('sendBookingEmail called with booking:', booking);
+    console.log('Current user:', auth.currentUser);
+
     try {
         const subjectNames = {
             'physics': 'Physics 1',
             'history': 'US History',
-            'sex': 'Sex',
             'other': 'Other'
         };
 
@@ -556,16 +557,20 @@ async function sendBookingEmail(booking) {
             user_email: auth.currentUser?.email || 'Not provided'
         };
 
+        console.log('Sending email with template params:', templateParams);
+
         // EmailJS service configured
-        await emailjs.send(
+        const response = await emailjs.send(
             'service_mn5u6h9',     // Your EmailJS service ID
-            'template_ndew2yh',    // Your EmailJS template ID
+            'template_5bufvtp',    // Your EmailJS template ID
             templateParams
         );
 
-        console.log('Email sent successfully');
+        console.log('Email sent successfully! Response:', response);
     } catch (error) {
         console.error('Email sending failed:', error);
-        // Don't show error to user - booking is still saved
+        console.error('Error details:', error.text || error.message || error);
+        console.error('Full error object:', JSON.stringify(error, null, 2));
+        alert('Immersive LFA: Booking saved, but email confirmation failed. Error: ' + (error.text || error.message || 'Unknown error'));
     }
 }

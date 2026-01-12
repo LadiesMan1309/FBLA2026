@@ -7,6 +7,16 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+    <script type="text/javascript">
+        (function(){
+            emailjs.init({
+                publicKey: "HiIg7aci_SS9AjyN",
+            });
+        })();
+    </script>
+
     <!-- Firebase SDK -->
     <script type="module">
         import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js';
@@ -96,6 +106,68 @@
                 </form>
 
                 <p class="signup-link">Already have an account? <a href="#" id="login-link">Sign in</a></p>
+            </div>
+        </div>
+
+        <div class="booking-section" id="booking-section" style="display: none;">
+            <div class="booking-container">
+                <h2>Book a Private Session</h2>
+                <p class="booking-subtitle">Schedule one-on-one tutoring with our expert instructors</p>
+
+                <form id="booking-form">
+                    <div class="form-group">
+                        <label for="booking-subject">Subject</label>
+                        <select id="booking-subject" required>
+                            <option value="">Select a subject</option>
+                            <option value="physics">Physics 1</option>
+                            <option value="history">US History</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="booking-date">Preferred Date</label>
+                        <input type="date" id="booking-date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="booking-time">Preferred Time</label>
+                        <select id="booking-time" required>
+                            <option value="">Select a time</option>
+                            <option value="09:00">9:00 AM</option>
+                            <option value="10:00">10:00 AM</option>
+                            <option value="11:00">11:00 AM</option>
+                            <option value="12:00">12:00 PM</option>
+                            <option value="13:00">1:00 PM</option>
+                            <option value="14:00">2:00 PM</option>
+                            <option value="15:00">3:00 PM</option>
+                            <option value="16:00">4:00 PM</option>
+                            <option value="17:00">5:00 PM</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="booking-duration">Session Duration</label>
+                        <select id="booking-duration" required>
+                            <option value="">Select duration</option>
+                            <option value="30">30 minutes</option>
+                            <option value="60">1 hour</option>
+                            <option value="90">1.5 hours</option>
+                            <option value="120">2 hours</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="booking-notes">Additional Notes (Optional)</label>
+                        <textarea id="booking-notes" rows="4" placeholder="Let us know what topics you'd like to focus on..."></textarea>
+                    </div>
+
+                    <button type="submit" class="booking-submit-btn">Book Session</button>
+                </form>
+
+                <div class="my-bookings" id="my-bookings">
+                    <h3>My Upcoming Sessions</h3>
+                    <div id="bookings-list"></div>
+                </div>
             </div>
         </div>
 

@@ -4,7 +4,9 @@
       "Bash(start:*)",
       "Bash(python -m http.server:*)",
       "Bash(netstat:*)",
-      "Bash(findstr:*)"
+      "Bash(findstr:*)",
+      "Bash(git commit:*)",
+      "Bash(git config:*)"
     ]
   }
 }
