@@ -23,9 +23,14 @@ let signupSection;
 let homeSection;
 let learnSection;
 let physicsCourse;
-let bookingSection;
+let scheduleSection;
+let dashboardSection;
+let resourcesSection;
+let sourcesSection;
 let homeBtn;
-let sessionBtn;
+let scheduleBtn;
+let dashboardBtn;
+let resourcesBtn;
 let learnBtn;
 let authBtn;
 
@@ -60,11 +65,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     homeSection = document.getElementById('home-section');
     learnSection = document.getElementById('learn-section');
     physicsCourse = document.getElementById('physics-course');
-    bookingSection = document.getElementById('booking-section');
+    scheduleSection = document.getElementById('schedule-section');
+    dashboardSection = document.getElementById('dashboard-section');
+    resourcesSection = document.getElementById('resources-section');
+    sourcesSection = document.getElementById('sources-section');
 
     // Get navigation buttons
     homeBtn = document.getElementById('home-btn');
-    sessionBtn = document.getElementById('session-btn');
+    scheduleBtn = document.getElementById('schedule-btn');
+    dashboardBtn = document.getElementById('dashboard-btn');
+    resourcesBtn = document.getElementById('resources-btn');
     learnBtn = document.getElementById('learn-btn');
     authBtn = document.getElementById('auth-btn');
 
@@ -81,7 +91,10 @@ function hideAllSections() {
     homeSection.style.display = 'none';
     learnSection.style.display = 'none';
     physicsCourse.style.display = 'none';
-    bookingSection.style.display = 'none';
+    scheduleSection.style.display = 'none';
+    dashboardSection.style.display = 'none';
+    resourcesSection.style.display = 'none';
+    sourcesSection.style.display = 'none';
 }
 
 function showLogin() {
@@ -108,13 +121,36 @@ function showLearn() {
     learnSection.style.display = 'flex';
 }
 
-function showBooking() {
-    console.log('showBooking called');
-    console.log('bookingSection:', bookingSection);
+function showSchedule() {
+    if (!isLoggedIn) {
+        alert('Immersive LFA wants you to login first to access the schedule');
+        showLogin();
+        return;
+    }
     hideAllSections();
-    bookingSection.style.display = 'flex';
-    console.log('bookingSection display set to flex');
+    scheduleSection.style.display = 'flex';
     loadUserBookings();
+}
+
+function showDashboard() {
+    if (!isLoggedIn) {
+        alert('Immersive LFA wants you to login first to access your dashboard');
+        showLogin();
+        return;
+    }
+    hideAllSections();
+    dashboardSection.style.display = 'flex';
+    updateDashboard();
+}
+
+function showResources() {
+    if (!isLoggedIn) {
+        alert('Immersive LFA wants you to login first to access resources');
+        showLogin();
+        return;
+    }
+    hideAllSections();
+    resourcesSection.style.display = 'flex';
 }
 
 function initializeEventListeners() {
@@ -126,14 +162,16 @@ function initializeEventListeners() {
         showHome();
     });
 
-    sessionBtn.addEventListener('click', () => {
-        if (isLoggedIn) {
-            console.log('Book a Private Session clicked');
-            showBooking();
-        } else {
-            alert('Immersive LFA wants you to login first to book a private session');
-            showLogin();
-        }
+    scheduleBtn.addEventListener('click', () => {
+        showSchedule();
+    });
+
+    dashboardBtn.addEventListener('click', () => {
+        showDashboard();
+    });
+
+    resourcesBtn.addEventListener('click', () => {
+        showResources();
     });
 
     learnBtn.addEventListener('click', () => {
@@ -294,12 +332,59 @@ function initializeEventListeners() {
             // Add active class to clicked lesson
             item.classList.add('active');
 
-            // Update content based on lesson (placeholder for now)
-            lessonContent.innerHTML = `
-                <h2>${item.textContent}</h2>
-                <p>Lesson content will be displayed here.</p>
-                <button class="complete-lesson-btn" onclick="markComplete('${lesson}')">Mark as Complete</button>
-            `;
+            // Load lesson content from global lessonContent object
+            if (window.lessonContent && window.lessonContent[lesson]) {
+                const content = window.lessonContent[lesson];
+                lessonContent.innerHTML = content.content + 
+                    `<button class="complete-lesson-btn" onclick="markComplete('${lesson}')">Mark as Complete</button>`;
+            } else {
+                lessonContent.innerHTML = `
+                    <h2>${item.textContent}</h2>
+                    <p>Lesson content will be displayed here.</p>
+                    <button class="complete-lesson-btn" onclick="markComplete('${lesson}')">Mark as Complete</button>
+                `;
+            }
+        });
+    });
+
+    // Schedule tabs
+    const privateTab = document.getElementById('private-tab');
+    const groupTab = document.getElementById('group-tab');
+    const privateContent = document.getElementById('private-content');
+    const groupContent = document.getElementById('group-content');
+
+    if (privateTab && groupTab) {
+        privateTab.addEventListener('click', () => {
+            privateTab.classList.add('active');
+            groupTab.classList.remove('active');
+            privateContent.classList.add('active');
+            groupContent.classList.remove('active');
+        });
+
+        groupTab.addEventListener('click', () => {
+            groupTab.classList.add('active');
+            privateTab.classList.remove('active');
+            groupContent.classList.add('active');
+            privateContent.classList.remove('active');
+        });
+    }
+
+    // Resources tabs
+    const resourceTabs = document.querySelectorAll('.resource-tab');
+    const resourceContents = document.querySelectorAll('.resource-content');
+
+    resourceTabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            const targetResource = tab.getAttribute('data-resource');
+            
+            resourceTabs.forEach(t => t.classList.remove('active'));
+            resourceContents.forEach(c => c.classList.remove('active'));
+            
+            tab.classList.add('active');
+            const targetContent = document.getElementById(targetResource + '-content');
+            if (targetContent) {
+                targetContent.classList.add('active');
+            }
         });
     });
 
@@ -349,8 +434,13 @@ function initializeEventListeners() {
             console.log('User logged in:', userEmail);
 
             // Reload lesson progress if on physics course page
-            if (physicsCourse.style.display === 'flex') {
+            if (physicsCourse && physicsCourse.style.display === 'flex') {
                 loadLessonProgress();
+            }
+            
+            // Update dashboard if visible
+            if (dashboardSection && dashboardSection.style.display === 'flex') {
+                updateDashboard();
             }
         } else {
             isLoggedIn = false;
@@ -368,15 +458,14 @@ function initializeEventListeners() {
             });
         }
 
-        // Show home page by default
-        if (!loginSection.style.display || loginSection.style.display === 'none') {
-            if (!signupSection.style.display || signupSection.style.display === 'none') {
-                if (!learnSection.style.display || learnSection.style.display === 'flex') {
-                    if (!physicsCourse.style.display || physicsCourse.style.display === 'flex') {
-                        showHome();
-                    }
-                }
-            }
+        // Show home page by default if no other section is visible
+        const visibleSections = [
+            loginSection, signupSection, homeSection, learnSection, 
+            physicsCourse, scheduleSection, dashboardSection, resourcesSection, sourcesSection
+        ].filter(section => section && (section.style.display === 'flex' || section.style.display === 'block'));
+        
+        if (visibleSections.length === 0) {
+            showHome();
         }
     });
 }
@@ -426,6 +515,11 @@ window.markComplete = function(lessonId) {
             item.classList.add('completed');
         }
     });
+
+    // Update dashboard if it's visible
+    if (dashboardSection && dashboardSection.style.display === 'flex') {
+        updateDashboard();
+    }
 
     alert('Immersive LFA: Lesson marked as complete!');
 }
@@ -481,7 +575,8 @@ function loadUserBookings() {
         const subjectNames = {
             'physics': 'Physics 1',
             'history': 'US History',
-            'other': 'Other'
+            'other': 'Other',
+            'group-study': 'Group Study Session'
         };
 
         const formattedDate = new Date(booking.date).toLocaleDateString('en-US', {
@@ -492,13 +587,29 @@ function loadUserBookings() {
         });
 
         const formattedTime = formatTime(booking.time);
+        
+        // For group sessions, show the title; for private sessions, show subject name
+        const displayTitle = booking.type === 'group' 
+            ? (booking.title || 'Group Study Session')
+            : (subjectNames[booking.subject] || booking.subject);
+        
+        // Calculate end time for display
+        const [hour, minute] = booking.time.split(':');
+        const startMinutes = parseInt(hour) * 60 + parseInt(minute);
+        const endMinutes = startMinutes + parseInt(booking.duration);
+        const endHour = Math.floor(endMinutes / 60);
+        const endMin = endMinutes % 60;
+        const endTime = formatTime(`${String(endHour).padStart(2, '0')}:${String(endMin).padStart(2, '0')}`);
+        const timeDisplay = booking.type === 'group' 
+            ? `${formattedTime} - ${endTime}`
+            : formattedTime;
 
         return `
             <div class="booking-item">
                 <div class="booking-details">
-                    <h4>${subjectNames[booking.subject] || booking.subject}</h4>
+                    <h4>${displayTitle}${booking.type === 'group' ? ' <span class="group-badge">Group</span>' : ''}</h4>
                     <p><strong>Date:</strong> ${formattedDate}</p>
-                    <p><strong>Time:</strong> ${formattedTime}</p>
+                    <p><strong>Time:</strong> ${timeDisplay}</p>
                     <p><strong>Duration:</strong> ${booking.duration} minutes</p>
                     ${booking.notes ? `<p><strong>Notes:</strong> ${booking.notes}</p>` : ''}
                 </div>
@@ -574,3 +685,410 @@ async function sendBookingEmail(booking) {
         alert('Immersive LFA: Booking saved, but email confirmation failed. Error: ' + (error.text || error.message || 'Unknown error'));
     }
 }
+
+// Dashboard Functions
+function updateDashboard() {
+    const progress = getLessonProgress();
+    const totalLessons = 6; // intro, lesson1-5
+    const completedLessons = Object.keys(progress).filter(key => 
+        ['intro', 'lesson1', 'lesson2', 'lesson3', 'lesson4', 'lesson5'].includes(key)
+    ).length;
+    
+    const progressPercent = Math.round((completedLessons / totalLessons) * 100);
+    
+    // Update progress circle
+    const progressCircle = document.getElementById('progress-circle');
+    const progressPercentEl = document.getElementById('progress-percent');
+    const lessonsCompletedEl = document.getElementById('lessons-completed');
+    
+    if (progressPercentEl) {
+        progressPercentEl.textContent = progressPercent + '%';
+    }
+    if (lessonsCompletedEl) {
+        lessonsCompletedEl.textContent = `${completedLessons} of ${totalLessons} lessons completed`;
+    }
+    
+    // Update progress ring
+    const circle = document.querySelector('.progress-ring-circle');
+    if (circle) {
+        const circumference = 2 * Math.PI * 52;
+        const offset = circumference - (progressPercent / 100) * circumference;
+        circle.style.strokeDasharray = circumference;
+        circle.style.strokeDashoffset = offset;
+    }
+    
+    // Update recent activity
+    const recentActivity = document.getElementById('recent-activity');
+    if (recentActivity) {
+        const activities = [];
+        if (completedLessons > 0) {
+            activities.push(`Completed ${completedLessons} lesson${completedLessons > 1 ? 's' : ''}`);
+        }
+        const bookings = getUserBookings();
+        if (bookings.length > 0) {
+            activities.push(`Booked ${bookings.length} session${bookings.length > 1 ? 's' : ''}`);
+        }
+        
+        if (activities.length > 0) {
+            recentActivity.innerHTML = activities.map(a => `<p>${a}</p>`).join('');
+        } else {
+            recentActivity.innerHTML = '<p class="no-activity">No recent activity</p>';
+        }
+    }
+    
+    // Update page views
+    const pageViews = parseInt(localStorage.getItem('pageViews') || '0') + 1;
+    localStorage.setItem('pageViews', pageViews.toString());
+    const pageViewsEl = document.getElementById('page-views');
+    if (pageViewsEl) {
+        pageViewsEl.textContent = pageViews;
+    }
+}
+
+// Quiz Functions
+const quizData = {
+    'physics-basics': {
+        title: 'Physics Basics Quiz',
+        questions: [
+            {
+                question: 'What is the SI unit for length?',
+                options: ['Meter', 'Kilogram', 'Second', 'Kelvin'],
+                correct: 0
+            },
+            {
+                question: 'Physics is the study of:',
+                options: ['Only motion', 'Matter and energy', 'Only energy', 'Only matter'],
+                correct: 1
+            },
+            {
+                question: 'Which branch of physics deals with motion and forces?',
+                options: ['Thermodynamics', 'Mechanics', 'Optics', 'Electromagnetism'],
+                correct: 1
+            }
+        ]
+    },
+    'motion-quiz': {
+        title: 'Motion & Kinematics Quiz',
+        questions: [
+            {
+                question: 'What is the difference between speed and velocity?',
+                options: ['Speed has direction, velocity does not', 'Velocity has direction, speed does not', 'They are the same', 'Speed is always greater'],
+                correct: 1
+            },
+            {
+                question: 'If a car accelerates from 0 to 20 m/s in 5 seconds, what is its acceleration?',
+                options: ['4 m/s²', '5 m/s²', '10 m/s²', '20 m/s²'],
+                correct: 0
+            },
+            {
+                question: 'Displacement is:',
+                options: ['Always equal to distance', 'A vector quantity', 'A scalar quantity', 'Always positive'],
+                correct: 1
+            }
+        ]
+    },
+    'vectors-quiz': {
+        title: 'Vectors & Scalars Quiz',
+        questions: [
+            {
+                question: 'Which of the following is a scalar quantity?',
+                options: ['Velocity', 'Displacement', 'Speed', 'Acceleration'],
+                correct: 2
+            },
+            {
+                question: 'A vector has:',
+                options: ['Only magnitude', 'Only direction', 'Both magnitude and direction', 'Neither magnitude nor direction'],
+                correct: 2
+            },
+            {
+                question: 'If you walk 3 m east and 4 m north, your displacement is:',
+                options: ['5 m', '7 m', '5 m northeast', '7 m northeast'],
+                correct: 2
+            }
+        ]
+    },
+    'unit1-final': {
+        title: 'Unit 1 Final Quiz',
+        questions: [
+            {
+                question: 'What is the SI unit for mass?',
+                options: ['Meter', 'Kilogram', 'Gram', 'Pound'],
+                correct: 1
+            },
+            {
+                question: 'Velocity is a:',
+                options: ['Scalar', 'Vector', 'Both', 'Neither'],
+                correct: 1
+            },
+            {
+                question: 'In projectile motion, horizontal velocity is:',
+                options: ['Constant', 'Increasing', 'Decreasing', 'Zero'],
+                correct: 0
+            },
+            {
+                question: 'Acceleration due to gravity on Earth is approximately:',
+                options: ['9.8 m/s²', '10 m/s²', '8.9 m/s²', '9.0 m/s²'],
+                correct: 0
+            },
+            {
+                question: 'The equation v = v₀ + at is used for:',
+                options: ['Constant velocity', 'Constant acceleration', 'Variable acceleration', 'No motion'],
+                correct: 1
+            }
+        ]
+    }
+};
+
+window.startQuiz = function(quizId) {
+    const quiz = quizData[quizId];
+    if (!quiz) return;
+    
+    const modal = document.getElementById('quiz-modal');
+    const title = document.getElementById('quiz-title');
+    const content = document.getElementById('quiz-content');
+    const results = document.getElementById('quiz-results');
+    
+    if (!modal || !title || !content) return;
+    
+    title.textContent = quiz.title;
+    content.style.display = 'block';
+    results.style.display = 'none';
+    
+    let currentQuestion = 0;
+    let score = 0;
+    let userAnswers = [];
+    
+    function showQuestion() {
+        if (currentQuestion >= quiz.questions.length) {
+            showResults();
+            return;
+        }
+        
+        const q = quiz.questions[currentQuestion];
+        content.innerHTML = `
+            <div class="quiz-question">
+                <p class="question-number">Question ${currentQuestion + 1} of ${quiz.questions.length}</p>
+                <h3>${q.question}</h3>
+                <div class="quiz-options">
+                    ${q.options.map((opt, idx) => `
+                        <button class="quiz-option" onclick="selectAnswer(${idx})">${opt}</button>
+                    `).join('')}
+                </div>
+            </div>
+        `;
+    }
+    
+    window.selectAnswer = function(answerIdx) {
+        userAnswers[currentQuestion] = answerIdx;
+        const q = quiz.questions[currentQuestion];
+        if (answerIdx === q.correct) {
+            score++;
+        }
+        currentQuestion++;
+        showQuestion();
+    };
+    
+    function showResults() {
+        content.style.display = 'none';
+        results.style.display = 'block';
+        const percentage = Math.round((score / quiz.questions.length) * 100);
+        results.innerHTML = `
+            <div class="quiz-results-content">
+                <h3>Quiz Complete!</h3>
+                <p class="quiz-score">Your Score: ${score}/${quiz.questions.length} (${percentage}%)</p>
+                <div class="quiz-feedback">
+                    ${percentage >= 80 ? '<p class="success">Excellent work!</p>' : 
+                      percentage >= 60 ? '<p class="warning">Good job! Keep practicing.</p>' : 
+                      '<p class="error">Review the material and try again.</p>'}
+                </div>
+                <button class="close-quiz-btn" onclick="closeQuiz()">Close</button>
+            </div>
+        `;
+        
+        // Save quiz score
+        const userId = auth.currentUser?.uid || 'anonymous';
+        const key = `quizScores_${userId}`;
+        const scores = JSON.parse(localStorage.getItem(key) || '[]');
+        scores.push({ quizId, score, total: quiz.questions.length, date: new Date().toISOString() });
+        localStorage.setItem(key, JSON.stringify(scores));
+    }
+    
+    modal.style.display = 'flex';
+    showQuestion();
+};
+
+window.closeQuiz = function() {
+    const modal = document.getElementById('quiz-modal');
+    if (modal) {
+        modal.style.display = 'none';
+    }
+};
+
+window.joinGroupSession = function(sessionId, buttonElement) {
+    // Find the group session card that was clicked
+    const button = buttonElement || event?.target;
+    const sessionCard = button.closest('.group-session-card');
+    
+    if (!sessionCard) {
+        alert('Immersive LFA: Could not find session details.');
+        return;
+    }
+    
+    // Extract session details from the card
+    const title = sessionCard.querySelector('h4')?.textContent || 'Group Study Session';
+    const dateElement = sessionCard.querySelector('.session-date');
+    
+    // Get date from data-date attribute (preferred) or text content
+    let sessionDate = '';
+    if (dateElement) {
+        sessionDate = dateElement.getAttribute('data-date') || dateElement.textContent.trim();
+        // If date is formatted, try to extract YYYY-MM-DD format
+        if (!sessionDate.match(/^\d{4}-\d{2}-\d{2}$/)) {
+            // Try to parse formatted date back to YYYY-MM-DD
+            try {
+                const parsedDate = new Date(sessionDate);
+                if (!isNaN(parsedDate.getTime())) {
+                    sessionDate = parsedDate.toISOString().split('T')[0];
+                } else {
+                    sessionDate = new Date().toISOString().split('T')[0];
+                }
+            } catch (e) {
+                sessionDate = new Date().toISOString().split('T')[0];
+            }
+        }
+    }
+    
+    // Get time text - find the paragraph containing "Time"
+    const timeParagraph = Array.from(sessionCard.querySelectorAll('p')).find(p => 
+        p.textContent.includes('Time:')
+    );
+    const timeText = timeParagraph?.textContent || '';
+    
+    // Parse time range (e.g., "3:00 PM - 4:30 PM")
+    const timeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)\s*-\s*(\d{1,2}):(\d{2})\s*(AM|PM)/);
+    let startTime = '';
+    let duration = 90; // default 90 minutes
+    
+    if (timeMatch) {
+        const startHour = parseInt(timeMatch[1]);
+        const startMin = timeMatch[2];
+        const startAmPm = timeMatch[3];
+        const endHour = parseInt(timeMatch[4]);
+        const endMin = timeMatch[5];
+        const endAmPm = timeMatch[6];
+        
+        // Convert to 24-hour format for start time
+        let startHour24 = startHour;
+        if (startAmPm === 'PM' && startHour !== 12) startHour24 += 12;
+        if (startAmPm === 'AM' && startHour === 12) startHour24 = 0;
+        startTime = `${String(startHour24).padStart(2, '0')}:${startMin}`;
+        
+        // Calculate duration
+        let endHour24 = endHour;
+        if (endAmPm === 'PM' && endHour !== 12) endHour24 += 12;
+        if (endAmPm === 'AM' && endHour === 12) endHour24 = 0;
+        
+        const startMinutes = startHour24 * 60 + parseInt(startMin);
+        const endMinutes = endHour24 * 60 + parseInt(endMin);
+        duration = endMinutes - startMinutes;
+    } else {
+        // Fallback: try to extract just start time
+        const simpleTimeMatch = timeText.match(/(\d{1,2}):(\d{2})\s*(AM|PM)/);
+        if (simpleTimeMatch) {
+            let hour = parseInt(simpleTimeMatch[1]);
+            const min = simpleTimeMatch[2];
+            const ampm = simpleTimeMatch[3];
+            if (ampm === 'PM' && hour !== 12) hour += 12;
+            if (ampm === 'AM' && hour === 12) hour = 0;
+            startTime = `${String(hour).padStart(2, '0')}:${min}`;
+        }
+    }
+    
+    // If we still don't have a date, use a default
+    if (!sessionDate) {
+        sessionDate = new Date().toISOString().split('T')[0];
+    }
+    
+    // Create booking object for group session
+    const booking = {
+        id: Date.now().toString(),
+        type: 'group',
+        title: title,
+        subject: 'group-study',
+        date: sessionDate,
+        time: startTime || '15:00',
+        duration: duration,
+        sessionId: sessionId,
+        createdAt: new Date().toISOString()
+    };
+    
+    // Check if user is already registered for this session
+    const existingBookings = getUserBookings();
+    const alreadyJoined = existingBookings.some(b => b.sessionId === sessionId);
+    
+    if (alreadyJoined) {
+        alert('Immersive LFA: You have already joined this group study session!');
+        return;
+    }
+    
+    // Save the booking
+    saveBooking(booking);
+    
+    // Reload bookings list to show the new session
+    loadUserBookings();
+    
+    alert(`Immersive LFA: You have joined the group study session "${title}"!`);
+};
+
+window.downloadFile = function(filename) {
+    // Create a simple text file as a placeholder
+    const content = `This is a placeholder for ${filename}. In a production environment, this would be a downloadable PDF file.`;
+    const blob = new Blob([content], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = filename;
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+    alert(`Immersive LFA: ${filename} download started!`);
+};
+
+function showSources() {
+    hideAllSections();
+    if (sourcesSection) {
+        sourcesSection.style.display = 'flex';
+    }
+}
+
+// Format dates for group sessions
+document.addEventListener('DOMContentLoaded', () => {
+    setTimeout(() => {
+        const sessionDates = document.querySelectorAll('.session-date');
+        sessionDates.forEach(dateEl => {
+            // Use data-date attribute if available, otherwise use textContent
+            const dateStr = dateEl.getAttribute('data-date') || dateEl.textContent;
+            if (dateStr) {
+                try {
+                    const date = new Date(dateStr);
+                    if (!isNaN(date.getTime())) {
+                        const formatted = date.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        });
+                        dateEl.textContent = formatted;
+                        // Preserve data-date attribute for later use
+                        if (!dateEl.getAttribute('data-date')) {
+                            dateEl.setAttribute('data-date', dateStr);
+                        }
+                    }
+                } catch (e) {
+                    // Keep original if parsing fails
+                }
+            }
+        });
+    }, 100);
+});
