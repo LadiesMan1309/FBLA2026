@@ -33,6 +33,11 @@ let dashboardBtn;
 let resourcesBtn;
 let learnBtn;
 let authBtn;
+let navToggleBtn;
+let judgeTourBtn;
+let previewBadge;
+let siteHeader;
+
 
 // Wait for Firebase to be ready
 function waitForFirebase() {
@@ -78,10 +83,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     learnBtn = document.getElementById('learn-btn');
     authBtn = document.getElementById('auth-btn');
 
+    navToggleBtn = document.getElementById('nav-toggle');
+    judgeTourBtn = document.getElementById('judge-tour-btn');
+    previewBadge = document.getElementById('preview-badge');
+    siteHeader = document.getElementById('site-header');
+
     // Initialize all event listeners
     console.log('DOM loaded, Firebase ready, initializing...');
     initializeEventListeners();
     initTestimonialsTicker();
+    initSchoolhouseNav();
     console.log('Initialization complete');
 });
 
@@ -101,6 +112,7 @@ function hideAllSections() {
 function showLogin() {
     hideAllSections();
     loginSection.style.display = 'flex';
+    setActiveNav('auth-btn');
 }
 
 function showSignup() {
@@ -111,15 +123,17 @@ function showSignup() {
 function showHome() {
     hideAllSections();
     homeSection.style.display = 'block';
+    setActiveNav('home-btn');
 }
 
 function showLearn() {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isPreviewMode()) {
         showLogin();
         return;
     }
     hideAllSections();
     learnSection.style.display = 'flex';
+    setActiveNav('learn-btn');
 }
 
 function showSchedule() {
@@ -134,24 +148,26 @@ function showSchedule() {
 }
 
 function showDashboard() {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isPreviewMode()) {
         alert('Immersive LFA wants you to login first to access your dashboard');
         showLogin();
         return;
     }
     hideAllSections();
     dashboardSection.style.display = 'flex';
-    updateDashboard();
+    setActiveNav('dashboard-btn');
+    if (isLoggedIn) updateDashboard();
 }
 
 function showResources() {
-    if (!isLoggedIn) {
+    if (!isLoggedIn && !isPreviewMode()) {
         alert('Immersive LFA wants you to login first to access resources');
         showLogin();
         return;
     }
     hideAllSections();
     resourcesSection.style.display = 'flex';
+    setActiveNav('resources-btn');
 }
 
 function initializeEventListeners() {
@@ -202,12 +218,21 @@ function initializeEventListeners() {
         }
     });
 
-    // Logo click to return home
-    const logo = document.querySelector('.logo');
-    logo.addEventListener('click', () => {
-        showHome();
-    });
-    logo.style.cursor = 'pointer';
+// Logo click to return home (safe)
+const logo =
+  document.getElementById('brand-link') ||
+  document.querySelector('.logo') ||
+  document.querySelector('.sh-nav__brand');
+
+if (logo) {
+  logo.addEventListener('click', (e) => {
+    e.preventDefault();
+    showHome();
+  });
+  logo.style.cursor = 'pointer';
+}
+
+
 
     // Google Login
     document.getElementById('google-login').addEventListener('click', async () => {
@@ -469,6 +494,14 @@ function initializeEventListeners() {
             showHome();
         }
     });
+    // Schoolhouse-inspired navbar interactions
+    if (navToggleBtn && siteHeader) {
+        navToggleBtn.addEventListener('click', () => toggleMobileNav());
+    }
+    if (judgeTourBtn) {
+        judgeTourBtn.addEventListener('click', () => startOrToggleJudgeTour());
+    }
+
 }
 
 // Lesson Progress Tracking (user-specific)
@@ -1056,12 +1089,13 @@ window.downloadFile = function(filename) {
     alert(`Immersive LFA: ${filename} download started!`);
 };
 
-function showSources() {
+window.showSources = function showSources() {
     hideAllSections();
     if (sourcesSection) {
         sourcesSection.style.display = 'flex';
     }
-}
+};
+
 
 // Format dates for group sessions
 
@@ -1146,3 +1180,101 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }, 100);
 });
+
+
+/* ===========================
+   Schoolhouse-inspired nav helpers
+   =========================== */
+
+function setActiveNav(activeId) {
+    document.querySelectorAll('.sh-nav__link').forEach((btn) => {
+        btn.classList.toggle('active', btn.id === activeId);
+    });
+}
+
+function initSchoolhouseNav() {
+    // Scroll shadow
+    if (siteHeader) {
+        const onScroll = () => {
+            siteHeader.classList.toggle('sh-scrolled', window.scrollY > 8);
+        };
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+    }
+
+    // Close mobile nav when a link is clicked
+    document.querySelectorAll('.sh-nav__link').forEach((btn) => {
+        btn.addEventListener('click', () => closeMobileNav());
+    });
+
+    // Click outside closes menu
+    document.addEventListener('click', (e) => {
+        if (!siteHeader || !siteHeader.classList.contains('nav-open')) return;
+        if (siteHeader.contains(e.target)) return;
+        closeMobileNav();
+    });
+
+    // Default highlight
+    setActiveNav('home-btn');
+}
+
+function toggleMobileNav() {
+    if (!siteHeader) return;
+    const isOpen = siteHeader.classList.toggle('nav-open');
+    if (navToggleBtn) navToggleBtn.setAttribute('aria-expanded', String(isOpen));
+}
+
+function closeMobileNav() {
+    if (!siteHeader) return;
+    if (!siteHeader.classList.contains('nav-open')) return;
+    siteHeader.classList.remove('nav-open');
+    if (navToggleBtn) navToggleBtn.setAttribute('aria-expanded', 'false');
+}
+
+function isPreviewMode() {
+    return window.__previewMode === true;
+}
+
+function setPreviewMode(on) {
+    window.__previewMode = on === true;
+    document.body.classList.toggle('preview-mode', window.__previewMode);
+
+    if (previewBadge) previewBadge.hidden = !window.__previewMode;
+
+    if (judgeTourBtn) {
+        judgeTourBtn.textContent = window.__previewMode ? 'Exit preview' : 'Judge tour';
+    }
+}
+
+function startOrToggleJudgeTour() {
+    // If already in preview mode, turn it off and go home.
+    if (isPreviewMode()) {
+        setPreviewMode(false);
+        showHome();
+        return;
+    }
+
+    // Enable preview mode so judges can see gated pages without logging in.
+    setPreviewMode(true);
+
+    // One-click, auto-advancing tour through key sections.
+    const steps = [
+        () => showHome(),
+        () => showLearn(),
+        () => showSchedule(),
+        () => showDashboard(),
+        () => showResources(),
+        () => {
+            if (typeof showSources === 'function') showSources();
+        }
+    ];
+
+    let i = 0;
+    const runStep = () => {
+        if (i >= steps.length) return;
+        steps[i++]();
+        window.setTimeout(runStep, 2800);
+    };
+
+    runStep();
+}

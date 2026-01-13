@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Immersive LFA - Educational Platform</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
@@ -39,22 +42,34 @@
         const auth = getAuth(app);
         window.firebaseAuth = auth;
     </script>
-    <header>
-        <div class="logo">
-            <span class="logo-immersive">Immersive</span>
-            <span class="logo-lfa">LFA</span>
+    <header class="sh-nav" id="site-header">
+        <a class="skip-link" href="#main-content">Skip to content</a>
+        <div class="sh-nav__inner">
+            <a class="sh-nav__brand" href="#" id="brand-link" aria-label="Immersive LFA Home">
+                <span class="logo-immersive">Immersive</span>
+                <span class="logo-lfa">LFA</span>
+            </a>
+
+            <nav class="sh-nav__links" id="primary-nav" aria-label="Primary navigation">
+                <button class="sh-nav__link" id="home-btn" type="button">Home</button>
+                <button class="sh-nav__link" id="learn-btn" type="button">Learn</button>
+                <button class="sh-nav__link" id="schedule-btn" type="button">Schedule</button>
+                <button class="sh-nav__link" id="dashboard-btn" type="button">Dashboard</button>
+                <button class="sh-nav__link" id="resources-btn" type="button">Resources</button>
+            </nav>
+
+            <div class="sh-nav__actions">
+                <button class="sh-nav__ghost" id="judge-tour-btn" type="button">Judge tour</button>
+                <span class="sh-nav__badge" id="preview-badge" hidden>Preview</span>
+                <button class="sh-nav__primary" id="auth-btn" type="button">Login</button>
+                <button class="sh-nav__burger" id="nav-toggle" type="button" aria-label="Toggle navigation" aria-controls="primary-nav" aria-expanded="false">
+                    <span></span><span></span><span></span>
+                </button>
+            </div>
         </div>
-        <nav>
-            <button class="nav-tab" id="home-btn">Home</button>
-            <button class="nav-tab" id="schedule-btn">Schedule</button>
-            <button class="nav-tab" id="dashboard-btn">Dashboard</button>
-            <button class="nav-tab" id="resources-btn">Resources</button>
-            <button class="nav-tab" id="learn-btn">Learn</button>
-            <button class="nav-tab" id="auth-btn">Login</button>
-        </nav>
     </header>
 
-    <main>
+    <main id="main-content">
         <div class="content-container">
         <div class="login-section" id="login-section" style="display: none;">
             <div class="login-container">
