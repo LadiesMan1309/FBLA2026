@@ -24,6 +24,9 @@ body {
   pointer-events: none;
 }
 
+.hidden { display: none !important; }
+.visible { display: flex !important; }
+
 /* Put the background behind everything */
 .webgl-background {
   position: fixed;

@@ -670,6 +670,8 @@ window.cancelBooking = function(bookingId) {
     }
 }
 
+element.classList.toggle('hidden', true);
+
 // Email sending function
 async function sendBookingEmail(booking) {
     console.log('sendBookingEmail called with booking:', booking);
