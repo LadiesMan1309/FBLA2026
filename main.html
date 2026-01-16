@@ -47,12 +47,16 @@
             <span class="logo-immersive">Immersive</span>
             <span class="logo-lfa">LFA</span>
         </div>
-        <nav>
+        <nav class="nav-center">
             <button class="nav-tab" id="home-btn">Home</button>
-            <button class="nav-tab" id="schedule-btn">Schedule</button>
-            <button class="nav-tab" id="dashboard-btn">Dashboard</button>
-            <button class="nav-tab" id="resources-btn">Resources</button>
             <button class="nav-tab" id="learn-btn">Learn</button>
+            <button class="nav-tab" id="schedule-btn">Schedule</button>
+            <button class="nav-tab" id="resources-btn">Resources</button>
+            <button class="nav-tab" id="dashboard-btn">Dashboard</button>
+        </nav>
+        <nav class="nav-right">
+            <!-- <button class="nav-tab" id="tutor-btn">Tutor</button> -->
+            <button class="nav-tab nav-tab-small" id="settings-btn">Account Settings</button>
             <button class="nav-tab" id="auth-btn">Login</button>
         </nav>
     </header>
@@ -136,7 +140,6 @@
                             <select id="booking-subject" required>
                                 <option value="">Select a subject</option>
                                 <option value="physics">Physics 1</option>
-                                <option value="history">US History</option>
                             </select>
                         </div>
 
@@ -269,14 +272,6 @@
                 </ul>
             </div>
 
-            <div class="course-card" data-course="history">
-                <h2>US History</h2>
-                <ul>
-                    <li>Journey from colonial America to modern times</li>
-                    <li>Analyze key events that shaped the nation</li>
-                    <li>Understand political, social, and cultural movements</li>
-                </ul>
-            </div>
         </div>
 
         <div class="course-view" id="physics-course" style="display: none;">
@@ -357,36 +352,19 @@
                         <div class="metrics-list">
                             <div class="metric-item">
                                 <span class="metric-label">Average Quiz Score:</span>
-                                <span class="metric-value" id="avg-quiz-score">--</span>
+                                <span class="metric-value">82%</span>
                             </div>
                             <div class="metric-item">
                                 <span class="metric-label">Time Spent:</span>
-                                <span class="metric-value" id="time-spent">0 hours</span>
+                                <span class="metric-value">15 hours</span>
                             </div>
                             <div class="metric-item">
                                 <span class="metric-label">Streak:</span>
-                                <span class="metric-value" id="streak">0 days</span>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="dashboard-card">
-                        <h3>Website Analytics</h3>
-                        <div class="analytics-list">
-                            <div class="metric-item">
-                                <span class="metric-label">User Engagement Rate:</span>
-                                <span class="metric-value">87%</span>
+                                <span class="metric-value">9 days</span>
                             </div>
                             <div class="metric-item">
-                                <span class="metric-label">Average Session Duration:</span>
-                                <span class="metric-value">24 minutes</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Bounce Rate:</span>
-                                <span class="metric-value">12%</span>
-                            </div>
-                            <div class="metric-item">
-                                <span class="metric-label">Page Views:</span>
-                                <span class="metric-value" id="page-views">0</span>
+                                <span class="metric-label">Study Sessions:</span>
+                                <span class="metric-value">23</span>
                             </div>
                         </div>
                     </div>
@@ -410,14 +388,14 @@
                     <div class="video-grid">
                         <div class="video-card">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/7kMQqJ9Iyhg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe src="https://www.youtube.com/embed/b1t41Q3xRM8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                             <h4>Introduction to Physics</h4>
                             <p>Learn the fundamentals of physics and why it matters</p>
                         </div>
                         <div class="video-card">
                             <div class="video-wrapper">
-                                <iframe src="https://www.youtube.com/embed/1op3ydzBUPY" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+                                <iframe src="https://www.youtube.com/embed/dHjWVlfNraM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                             </div>
                             <h4>Motion in One Dimension</h4>
                             <p>Understanding position, velocity, and acceleration</p>
@@ -589,6 +567,160 @@
                 </div>
             </div>
         </div>
+
+        <div class="settings-section" id="settings-section" style="display: none;">
+            <div class="settings-container">
+                <h2>Account Settings</h2>
+                <div class="settings-content">
+                    <div class="settings-card">
+                        <h3>Profile Information</h3>
+                        <div class="settings-group">
+                            <label>Email</label>
+                            <input type="text" id="settings-email" readonly class="settings-input-readonly">
+                        </div>
+                        <div class="settings-group">
+                            <label>Display Name</label>
+                            <input type="text" id="settings-display-name" class="settings-input" placeholder="Enter your name">
+                        </div>
+                        <button class="settings-save-btn" id="save-profile-btn">Save Changes</button>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Preferences</h3>
+                        <div class="settings-group">
+                            <label>Email Notifications</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                        <div class="settings-group">
+                            <label>Course Reminders</label>
+                            <div class="toggle-switch">
+                                <input type="checkbox" id="course-reminders" checked>
+                                <span class="toggle-slider"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="settings-card">
+                        <h3>Account Actions</h3>
+                        <button class="settings-danger-btn" id="reset-progress-btn">Reset Course Progress</button>
+                        <button class="settings-danger-btn" id="delete-account-btn">Delete Account</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tutor-section" id="tutor-section" style="display: none;">
+            <div class="tutor-container">
+                <h2>Tutor Dashboard</h2>
+                <p class="tutor-subtitle">Manage your upcoming tutoring sessions</p>
+
+                <div class="tutor-stats">
+                    <div class="stat-card">
+                        <h3>12</h3>
+                        <p>Upcoming Sessions</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>45</h3>
+                        <p>Total Students</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>4.8</h3>
+                        <p>Average Rating</p>
+                    </div>
+                    <div class="stat-card">
+                        <h3>128</h3>
+                        <p>Hours Taught</p>
+                    </div>
+                </div>
+
+                <div class="tutor-content-grid">
+                    <div class="upcoming-sessions-card">
+                        <h3>Upcoming Sessions</h3>
+                        <div class="sessions-list">
+                            <div class="session-item">
+                                <div class="session-time">
+                                    <span class="session-date">Jan 16, 2026</span>
+                                    <span class="session-hour">2:00 PM - 3:00 PM</span>
+                                </div>
+                                <div class="session-details">
+                                    <h4>Physics 1 - Motion & Forces</h4>
+                                    <p class="student-name">Student: Sarah Johnson</p>
+                                    <span class="session-type">One-on-One</span>
+                                </div>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-time">
+                                    <span class="session-date">Jan 16, 2026</span>
+                                    <span class="session-hour">4:00 PM - 5:00 PM</span>
+                                </div>
+                                <div class="session-details">
+                                    <h4>Physics 1 - Energy & Work</h4>
+                                    <p class="student-name">Student: Michael Chen</p>
+                                    <span class="session-type">One-on-One</span>
+                                </div>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-time">
+                                    <span class="session-date">Jan 17, 2026</span>
+                                    <span class="session-hour">10:00 AM - 11:30 AM</span>
+                                </div>
+                                <div class="session-details">
+                                    <h4>Physics 1 - Group Study Session</h4>
+                                    <p class="student-name">Students: 5 participants</p>
+                                    <span class="session-type session-type-group">Group Session</span>
+                                </div>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-time">
+                                    <span class="session-date">Jan 18, 2026</span>
+                                    <span class="session-hour">3:00 PM - 4:00 PM</span>
+                                </div>
+                                <div class="session-details">
+                                    <h4>Physics 1 - Waves & Sound</h4>
+                                    <p class="student-name">Student: Emily Rodriguez</p>
+                                    <span class="session-type">One-on-One</span>
+                                </div>
+                            </div>
+
+                            <div class="session-item">
+                                <div class="session-time">
+                                    <span class="session-date">Jan 19, 2026</span>
+                                    <span class="session-hour">1:00 PM - 2:00 PM</span>
+                                </div>
+                                <div class="session-details">
+                                    <h4>Physics 1 - Electricity Basics</h4>
+                                    <p class="student-name">Student: David Lee</p>
+                                    <span class="session-type">One-on-One</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tutor-notes-card">
+                        <h3>Session Notes</h3>
+                        <div class="notes-content">
+                            <div class="note-item">
+                                <h4>Sarah Johnson - Jan 16</h4>
+                                <p>Focus on Newton's Third Law. Student showed great improvement in understanding action-reaction pairs. Recommended practice problems for homework.</p>
+                            </div>
+                            <div class="note-item">
+                                <h4>Michael Chen - Jan 15</h4>
+                                <p>Covered kinetic and potential energy. Student needs more practice with energy conversion problems. Scheduled follow-up session.</p>
+                            </div>
+                            <div class="note-item">
+                                <h4>Group Session - Jan 14</h4>
+                                <p>Excellent collaboration on momentum problems. Group grasped conservation principles well. Plan to cover collisions next session.</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </main>
 

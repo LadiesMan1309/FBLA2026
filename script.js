@@ -12,9 +12,6 @@ window.lessonContent = {
     'lesson1': {
         content: `
             <h2>Lesson 1: Measurement and Units</h2>
-            <div class="video-container">
-                <iframe width="100%" height="400" src="https://www.youtube.com/embed/K3KzDFiPfKs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-            </div>
             <h3>Key Concepts:</h3>
             <ul>
                 <li><strong>SI Units:</strong> The International System of Units (meters, kilograms, seconds)</li>
@@ -493,6 +490,8 @@ let scheduleSection;
 let dashboardSection;
 let resourcesSection;
 let sourcesSection;
+let settingsSection;
+let tutorSection;
 let homeBtn;
 let scheduleBtn;
 let dashboardBtn;
@@ -540,6 +539,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     dashboardSection = document.getElementById('dashboard-section');
     resourcesSection = document.getElementById('resources-section');
     sourcesSection = document.getElementById('sources-section');
+    settingsSection = document.getElementById('settings-section');
+    tutorSection = document.getElementById('tutor-section');
 
     // Get navigation buttons
     homeBtn = document.getElementById('home-btn');
@@ -573,6 +574,8 @@ function hideAllSections() {
     dashboardSection.style.display = 'none';
     resourcesSection.style.display = 'none';
     sourcesSection.style.display = 'none';
+    settingsSection.style.display = 'none';
+    tutorSection.style.display = 'none';
 }
 
 function showLogin() {
@@ -636,6 +639,24 @@ function showResources() {
     setActiveNav('resources-btn');
 }
 
+function showSettings() {
+    if (!isLoggedIn && !isPreviewMode()) {
+        alert('Immersive LFA wants you to login first to access settings');
+        showLogin();
+        return;
+    }
+    hideAllSections();
+    settingsSection.style.display = 'flex';
+    setActiveNav('settings-btn');
+    loadUserSettings();
+}
+
+function showTutor() {
+    hideAllSections();
+    tutorSection.style.display = 'flex';
+    setActiveNav('tutor-btn');
+}
+
 function initializeEventListeners() {
     console.log('Initializing event listeners...');
 
@@ -666,6 +687,13 @@ function initializeEventListeners() {
         showLearn();
     });
 
+    const tutorBtn = document.getElementById('tutor-btn');
+    if (tutorBtn) {
+        tutorBtn.addEventListener('click', () => {
+            showTutor();
+        });
+    }
+
     authBtn.addEventListener('click', async () => {
         console.log('Auth button clicked, isLoggedIn:', isLoggedIn);
         if (isLoggedIn) {
@@ -683,6 +711,42 @@ function initializeEventListeners() {
             showLogin();
         }
     });
+
+    // Settings button
+    const settingsBtn = document.getElementById('settings-btn');
+    if (settingsBtn) {
+        settingsBtn.addEventListener('click', () => {
+            showSettings();
+        });
+    }
+
+    // Save profile button
+    const saveProfileBtn = document.getElementById('save-profile-btn');
+    if (saveProfileBtn) {
+        saveProfileBtn.addEventListener('click', () => {
+            saveUserSettings();
+        });
+    }
+
+    // Reset progress button
+    const resetProgressBtn = document.getElementById('reset-progress-btn');
+    if (resetProgressBtn) {
+        resetProgressBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to reset all your course progress? This action cannot be undone.')) {
+                resetCourseProgress();
+            }
+        });
+    }
+
+    // Delete account button
+    const deleteAccountBtn = document.getElementById('delete-account-btn');
+    if (deleteAccountBtn) {
+        deleteAccountBtn.addEventListener('click', () => {
+            if (confirm('Are you sure you want to delete your account? This action cannot be undone and all your data will be permanently removed.')) {
+                deleteUserAccount();
+            }
+        });
+    }
 
 // Logo click to return home (safe)
 const logo =
@@ -1274,7 +1338,6 @@ function loadUserBookings() {
     bookingsList.innerHTML = bookings.map(booking => {
         const subjectNames = {
             'physics': 'Physics 1',
-            'history': 'US History',
             'other': 'Other',
             'group-study': 'Group Study Session'
         };
@@ -1346,7 +1409,6 @@ async function sendBookingEmail(booking) {
     try {
         const subjectNames = {
             'physics': 'Physics 1',
-            'history': 'US History',
             'other': 'Other'
         };
 
@@ -1945,4 +2007,136 @@ function startOrToggleJudgeTour() {
     };
 
     runStep();
+}
+
+// Settings Management Functions
+function loadUserSettings() {
+    const user = auth.currentUser;
+    if (!user) return;
+
+    // Load email
+    const emailInput = document.getElementById('settings-email');
+    if (emailInput) {
+        emailInput.value = user.email || '';
+    }
+
+    // Load display name
+    const displayNameInput = document.getElementById('settings-display-name');
+    if (displayNameInput) {
+        displayNameInput.value = user.displayName || '';
+    }
+
+    // Load preferences from localStorage
+    const userId = user.uid;
+    const emailNotifications = localStorage.getItem(`${userId}_emailNotifications`);
+    const courseReminders = localStorage.getItem(`${userId}_courseReminders`);
+
+    const emailNotifCheckbox = document.getElementById('email-notifications');
+    if (emailNotifCheckbox && emailNotifications !== null) {
+        emailNotifCheckbox.checked = emailNotifications === 'true';
+    }
+
+    const courseRemindersCheckbox = document.getElementById('course-reminders');
+    if (courseRemindersCheckbox && courseReminders !== null) {
+        courseRemindersCheckbox.checked = courseReminders === 'true';
+    }
+}
+
+function saveUserSettings() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert('You must be logged in to save settings');
+        return;
+    }
+
+    const displayNameInput = document.getElementById('settings-display-name');
+    const displayName = displayNameInput ? displayNameInput.value : '';
+
+    // Update display name in Firebase
+    updateProfile(auth.currentUser, {
+        displayName: displayName
+    }).then(() => {
+        // Save preferences to localStorage
+        const userId = user.uid;
+        const emailNotifCheckbox = document.getElementById('email-notifications');
+        const courseRemindersCheckbox = document.getElementById('course-reminders');
+
+        if (emailNotifCheckbox) {
+            localStorage.setItem(`${userId}_emailNotifications`, emailNotifCheckbox.checked);
+        }
+
+        if (courseRemindersCheckbox) {
+            localStorage.setItem(`${userId}_courseReminders`, courseRemindersCheckbox.checked);
+        }
+
+        alert('Settings saved successfully!');
+    }).catch((error) => {
+        console.error('Error saving settings:', error);
+        alert('Failed to save settings: ' + error.message);
+    });
+}
+
+function resetCourseProgress() {
+    const userId = auth.currentUser?.uid || 'anonymous';
+
+    // Clear quiz scores
+    localStorage.removeItem(`quizScores_${userId}`);
+
+    // Clear lesson progress
+    const lessonProgressKey = `lessonProgress_${userId}`;
+    localStorage.removeItem(lessonProgressKey);
+
+    // Reload confidence bar
+    const confidenceFill = document.getElementById('confidence-fill');
+    const confidencePercentage = document.getElementById('confidence-percentage');
+    const confidenceStatus = document.getElementById('confidence-status');
+
+    if (confidenceFill) confidenceFill.style.width = '0%';
+    if (confidencePercentage) confidencePercentage.textContent = '0%';
+    if (confidenceStatus) {
+        confidenceStatus.innerHTML = 'Complete quizzes to track confidence';
+        confidenceStatus.style.color = '#4a5568';
+    }
+
+    // Reset score displays
+    const midtermScore = document.getElementById('midterm-score');
+    const finalScore = document.getElementById('final-score');
+    if (midtermScore) midtermScore.textContent = 'Not taken';
+    if (finalScore) finalScore.textContent = 'Not taken';
+
+    alert('Your course progress has been reset successfully!');
+}
+
+async function deleteUserAccount() {
+    const user = auth.currentUser;
+    if (!user) {
+        alert('You must be logged in to delete your account');
+        return;
+    }
+
+    try {
+        // Clear all user data from localStorage
+        const userId = user.uid;
+        const keysToRemove = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key.includes(userId)) {
+                keysToRemove.push(key);
+            }
+        }
+        keysToRemove.forEach(key => localStorage.removeItem(key));
+
+        // Delete the user account from Firebase
+        await user.delete();
+
+        alert('Your account has been deleted successfully. You will be redirected to the home page.');
+        showHome();
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        if (error.code === 'auth/requires-recent-login') {
+            alert('For security reasons, you need to log in again before deleting your account. Please log out and log back in, then try again.');
+        } else {
+            alert('Failed to delete account: ' + error.message);
+        }
+    }
 }
