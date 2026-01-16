@@ -1,3 +1,469 @@
+// Lesson Content Database
+window.lessonContent = {
+    'intro': {
+        content: `
+            <h2>Introduction to Physics</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/b1t41Q3xRM8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <p>Physics is the study of matter, energy, and the fundamental forces of nature. In this course, you'll explore the basic principles that govern our universe.</p>
+        `
+    },
+    'lesson1': {
+        content: `
+            <h2>Lesson 1: Measurement and Units</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/K3KzDFiPfKs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>SI Units:</strong> The International System of Units (meters, kilograms, seconds)</li>
+                <li><strong>Length:</strong> Measured in meters (m)</li>
+                <li><strong>Mass:</strong> Measured in kilograms (kg)</li>
+                <li><strong>Time:</strong> Measured in seconds (s)</li>
+                <li><strong>Precision and Accuracy:</strong> Understanding measurement quality</li>
+            </ul>
+        `
+    },
+    'lesson2': {
+        content: `
+            <h2>Lesson 2: Motion (Speed, Velocity, Acceleration)</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/ZM8ECpBuQYE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>Speed:</strong> Distance traveled per unit time (scalar)</li>
+                <li><strong>Velocity:</strong> Speed with direction (vector)</li>
+                <li><strong>Acceleration:</strong> Change in velocity over time</li>
+                <li><strong>Formula:</strong> v = d/t (velocity = distance/time)</li>
+            </ul>
+        `
+    },
+    'lesson3': {
+        content: `
+            <h2>Lesson 3: Force and Laws of Motion</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/kKKM8Y-u7ds" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Newton's Three Laws:</h3>
+            <ul>
+                <li><strong>First Law:</strong> An object at rest stays at rest (Inertia)</li>
+                <li><strong>Second Law:</strong> F = ma (Force = mass × acceleration)</li>
+                <li><strong>Third Law:</strong> For every action, there's an equal and opposite reaction</li>
+            </ul>
+        `
+    },
+    'lesson4': {
+        content: `
+            <h2>Lesson 4: Work, Energy, and Power</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/w4QFJb9a8vo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>Work:</strong> W = F × d (force × distance)</li>
+                <li><strong>Kinetic Energy:</strong> Energy of motion (KE = ½mv²)</li>
+                <li><strong>Potential Energy:</strong> Stored energy (PE = mgh)</li>
+                <li><strong>Power:</strong> Rate of doing work (P = W/t)</li>
+            </ul>
+        `
+    },
+    'lesson5': {
+        content: `
+            <h2>Lesson 5: Gravity</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/7gf6YpdvtE0" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+            <h3>Key Concepts:</h3>
+            <ul>
+                <li><strong>Gravitational Force:</strong> Attraction between objects with mass</li>
+                <li><strong>Weight:</strong> W = mg (mass × gravity)</li>
+                <li><strong>Acceleration due to gravity:</strong> g = 9.8 m/s² on Earth</li>
+                <li><strong>Free Fall:</strong> Motion under gravity alone</li>
+            </ul>
+        `
+    },
+    'lesson6': {
+        content: `
+            <h2>Lesson 6: Heat and Temperature</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/vqDbMEdLiCs" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>What is Temperature?</h3>
+            <p>Temperature measures how fast particles in a substance are moving. The faster they move, the higher the temperature. We measure temperature in degrees Celsius (°C), Fahrenheit (°F), or Kelvin (K).</p>
+
+            <h3>What is Heat?</h3>
+            <p>Heat is the transfer of thermal energy from a warmer object to a cooler one. When you touch a hot stove, heat transfers from the stove to your hand.</p>
+
+            <h3>Three Ways Heat Transfers:</h3>
+            <ul>
+                <li><strong>Conduction:</strong> Heat transfer through direct contact. Example: A metal spoon gets hot in a cup of tea.</li>
+                <li><strong>Convection:</strong> Heat transfer through fluid movement (liquids or gases). Example: Warm air rises, cool air sinks, creating wind.</li>
+                <li><strong>Radiation:</strong> Heat transfer through electromagnetic waves. Example: The sun warms Earth without touching it.</li>
+            </ul>
+
+            <h3>Real-World Examples:</h3>
+            <p>• Your home heater uses convection to warm the air<br>
+            • Ice melts in your hand due to conduction<br>
+            • The sun's rays warm your skin through radiation</p>
+        `
+    },
+    'lesson7': {
+        content: `
+            <h2>Lesson 7: Light (Reflection and Refraction)</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/IRBfpBPELmE" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>What is Light?</h3>
+            <p>Light is electromagnetic radiation that our eyes can see. It travels in straight lines at incredibly fast speeds - about 300,000 km/s!</p>
+
+            <h3>Reflection</h3>
+            <p>When light bounces off a surface, that's reflection. Mirrors reflect light, which is why you can see yourself. The Law of Reflection states: the angle at which light hits a surface equals the angle at which it bounces off.</p>
+
+            <h3>Refraction</h3>
+            <p>When light passes from one material to another (like from air to water), it bends. This is refraction. That's why a straw looks bent in a glass of water!</p>
+
+            <h3>Lenses</h3>
+            <ul>
+                <li><strong>Convex Lenses:</strong> Curved outward, make things look bigger (magnifying glass)</li>
+                <li><strong>Concave Lenses:</strong> Curved inward, make things look smaller</li>
+            </ul>
+
+            <h3>Real-World Uses:</h3>
+            <p>• Eyeglasses and contact lenses correct vision<br>
+            • Cameras use lenses to focus light<br>
+            • Telescopes use mirrors and lenses to see distant objects</p>
+        `
+    },
+    'lesson8': {
+        content: `
+            <h2>Lesson 8: Sound</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/TsQL4gRYRMM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>How Sound Works</h3>
+            <p>Sound is created by vibrations that travel through air, water, or solids as waves. When you speak, your vocal cords vibrate, creating sound waves that travel through the air to someone's ears.</p>
+
+            <h3>Properties of Sound:</h3>
+            <ul>
+                <li><strong>Frequency:</strong> How many vibrations happen per second (measured in Hertz/Hz). High frequency = high pitch (like a whistle). Low frequency = low pitch (like a drum).</li>
+                <li><strong>Amplitude:</strong> The height of the wave. Larger amplitude = louder sound. Smaller amplitude = quieter sound.</li>
+                <li><strong>Speed:</strong> Sound travels at about 343 m/s in air (faster in water and solids!)</li>
+            </ul>
+
+            <h3>Echo</h3>
+            <p>An echo happens when sound waves bounce off a surface and come back to you. That's why you hear echoes in tunnels or canyons!</p>
+
+            <h3>Real-World Applications:</h3>
+            <p>• Musical instruments create different frequencies to make music<br>
+            • Ultrasound uses high-frequency sound to see inside the body<br>
+            • Sonar uses sound waves to detect objects underwater</p>
+        `
+    },
+    'lesson9': {
+        content: `
+            <h2>Lesson 9: Electricity (Current, Voltage, Circuits)</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/mc979OhitAg" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>Understanding Electricity</h3>
+            <p>Electricity is the flow of tiny particles called electrons through a material. Think of it like water flowing through pipes!</p>
+
+            <h3>Three Important Concepts:</h3>
+            <ul>
+                <li><strong>Current (I):</strong> The flow of electric charge, measured in Amperes (A). Like how much water flows through a pipe.</li>
+                <li><strong>Voltage (V):</strong> The electrical pressure that pushes electrons, measured in Volts (V). Like water pressure in pipes.</li>
+                <li><strong>Resistance (R):</strong> How much a material opposes the flow of electricity, measured in Ohms (Ω). Like friction in a pipe.</li>
+            </ul>
+
+            <h3>Ohm's Law</h3>
+            <p>The relationship between voltage, current, and resistance: <strong>V = I × R</strong></p>
+            <p>This means: Voltage = Current × Resistance</p>
+
+            <h3>Types of Circuits:</h3>
+            <ul>
+                <li><strong>Series Circuit:</strong> Components connected in a single path. If one breaks, all stop working (like old Christmas lights).</li>
+                <li><strong>Parallel Circuit:</strong> Components connected in multiple paths. If one breaks, others keep working (like house lights).</li>
+            </ul>
+
+            <h3>Real-Life Uses:</h3>
+            <p>• All electronic devices (phones, computers, TVs)<br>
+            • Home wiring and lighting<br>
+            • Electric cars and batteries</p>
+        `
+    },
+    'lesson10': {
+        content: `
+            <h2>Lesson 10: Magnetism</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/hFAOXdXZ5TM" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>What is Magnetism?</h3>
+            <p>Magnetism is an invisible force that can attract or repel certain materials, especially iron. Magnets have been used for thousands of years!</p>
+
+            <h3>Magnetic Poles</h3>
+            <p>Every magnet has two poles: North and South</p>
+            <ul>
+                <li><strong>Opposite poles attract:</strong> North and South pull together</li>
+                <li><strong>Same poles repel:</strong> North and North (or South and South) push apart</li>
+            </ul>
+
+            <h3>Magnetic Fields</h3>
+            <p>The area around a magnet where magnetic forces can be felt is called a magnetic field. Iron filings can show you the pattern of a magnetic field!</p>
+
+            <h3>Electromagnets</h3>
+            <p>You can create a magnet using electricity! When electric current flows through a wire coil, it creates a magnetic field. This is called an electromagnet, and it can be turned on and off.</p>
+
+            <h3>Real-World Applications:</h3>
+            <p>• Electric motors and generators<br>
+            • Speakers and headphones<br>
+            • MRI machines in hospitals<br>
+            • Compasses for navigation<br>
+            • Hard drives and credit card strips</p>
+        `
+    },
+    'lesson11': {
+        content: `
+            <h2>Lesson 11: Simple Machines</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/qRXM97eVRFo" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>What are Simple Machines?</h3>
+            <p>Simple machines are basic tools that make work easier. They help us lift heavy objects, move things farther, or apply more force with less effort.</p>
+
+            <h3>The Six Simple Machines:</h3>
+
+            <h4>1. Lever</h4>
+            <p>A rigid bar that pivots on a fulcrum (pivot point). Example: Seesaw, crowbar, scissors. Using a long lever, you can lift heavy objects with less force!</p>
+
+            <h4>2. Wheel and Axle</h4>
+            <p>A wheel attached to a rod (axle) that turns together. Example: Doorknobs, bicycle wheels, car steering wheels. Makes it easier to move things or turn objects.</p>
+
+            <h4>3. Pulley</h4>
+            <p>A wheel with a rope or cable around it for lifting. Example: Flagpoles, construction cranes. Pulleys let you lift heavy objects by pulling down instead of up!</p>
+
+            <h4>4. Inclined Plane</h4>
+            <p>A flat surface set at an angle (like a ramp). Example: Wheelchair ramps, roads up mountains. It's easier to push something up a ramp than to lift it straight up.</p>
+
+            <h4>5. Wedge</h4>
+            <p>Two inclined planes put together to form a sharp edge. Example: Knife, axe, doorstop. Wedges split things apart or hold them in place.</p>
+
+            <h4>6. Screw</h4>
+            <p>An inclined plane wrapped around a cylinder. Example: Screws, bolts, jar lids. Screws hold things together very tightly.</p>
+
+            <h3>Why Simple Machines Matter:</h3>
+            <p>All complex machines (like cars, computers, and robots) are made by combining these six simple machines! Understanding them helps you understand how everything works.</p>
+        `
+    },
+    'lesson12': {
+        content: `
+            <h2>Lesson 12: Physics in Daily Life</h2>
+            <div class="video-container">
+                <iframe width="100%" height="400" src="https://www.youtube.com/embed/Cj4y0EUlU-Y" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            </div>
+
+            <h3>Physics is Everywhere!</h3>
+            <p>Everything you do involves physics! Let's explore how physics concepts show up in your daily life.</p>
+
+            <h3>Transportation</h3>
+            <p><strong>Cars:</strong> Use friction (brakes), force and acceleration (engine), and aerodynamics (shape to reduce air resistance).</p>
+            <p><strong>Airplanes:</strong> Fly using lift (air pressure differences), thrust (engines), and drag (air resistance).</p>
+            <p><strong>Bicycles:</strong> Use wheels and axles (simple machines), gears (mechanical advantage), and balance (center of gravity).</p>
+
+            <h3>Communication</h3>
+            <p><strong>Smartphones:</strong> Use electromagnetic waves to send and receive signals, touchscreens work with electrical charges, and speakers use electromagnets to create sound.</p>
+            <p><strong>WiFi & Radio:</strong> Invisible electromagnetic waves carry information through the air at the speed of light!</p>
+
+            <h3>Medicine</h3>
+            <p><strong>X-rays:</strong> Use high-energy electromagnetic radiation to see inside your body.</p>
+            <p><strong>MRI:</strong> Uses powerful magnets and radio waves to create detailed images of organs.</p>
+            <p><strong>Ultrasound:</strong> Uses sound waves to see babies before they're born!</p>
+
+            <h3>Sports</h3>
+            <p><strong>Basketball:</strong> Projectile motion determines the arc of your shot.</p>
+            <p><strong>Swimming:</strong> You push water backward (action) and move forward (reaction) - Newton's Third Law!</p>
+            <p><strong>Running:</strong> Friction between shoes and ground prevents slipping.</p>
+
+            <h3>Home</h3>
+            <p><strong>Refrigerator:</strong> Uses thermodynamics to transfer heat out of the fridge.</p>
+            <p><strong>Microwave:</strong> Uses electromagnetic waves to heat food.</p>
+            <p><strong>Light Bulbs:</strong> Convert electrical energy into light energy.</p>
+
+            <h3>The Big Picture</h3>
+            <p>Physics isn't just about formulas and equations - it's about understanding how the world works! Every time you turn on a light, ride a bike, or play a game, you're using physics principles. Understanding physics helps you appreciate technology and solve real-world problems!</p>
+        `
+    },
+    'midterm': {
+        type: 'quiz',
+        totalQuestions: 10,
+        questions: [
+            {
+                question: "What is the SI unit for measuring length?",
+                options: ["Meter", "Kilogram", "Second", "Newton"],
+                correct: 0
+            },
+            {
+                question: "Speed is a scalar quantity. What does this mean?",
+                options: ["It has both magnitude and direction", "It only has magnitude", "It changes over time", "It is constant"],
+                correct: 1
+            },
+            {
+                question: "According to Newton's First Law, an object at rest will:",
+                options: ["Eventually start moving", "Stay at rest unless acted upon by a force", "Always accelerate", "Lose mass"],
+                correct: 1
+            },
+            {
+                question: "What is the formula for work?",
+                options: ["W = m × a", "W = F × d", "W = m × v", "W = F × t"],
+                correct: 1
+            },
+            {
+                question: "What is the acceleration due to gravity on Earth?",
+                options: ["9.8 m/s", "9.8 m/s²", "10 m/s", "10 m/s²"],
+                correct: 1
+            },
+            {
+                question: "Which of the following is NOT a method of heat transfer?",
+                options: ["Conduction", "Convection", "Radiation", "Reflection"],
+                correct: 3
+            },
+            {
+                question: "What is Newton's Second Law?",
+                options: ["F = ma", "E = mc²", "V = IR", "P = W/t"],
+                correct: 0
+            },
+            {
+                question: "Velocity is different from speed because velocity includes:",
+                options: ["Mass", "Direction", "Time", "Temperature"],
+                correct: 1
+            },
+            {
+                question: "Kinetic energy is the energy of:",
+                options: ["Position", "Motion", "Heat", "Light"],
+                correct: 1
+            },
+            {
+                question: "The weight of an object is calculated using which formula?",
+                options: ["W = m × v", "W = m × g", "W = F × d", "W = m × a"],
+                correct: 1
+            }
+        ]
+    },
+    'finaltest': {
+        type: 'quiz',
+        totalQuestions: 20,
+        questions: [
+            {
+                question: "What are the three basic SI units?",
+                options: ["Meter, Liter, Second", "Meter, Kilogram, Second", "Foot, Pound, Hour", "Inch, Gram, Minute"],
+                correct: 1
+            },
+            {
+                question: "If a car travels 100 meters in 5 seconds, what is its speed?",
+                options: ["20 m/s", "500 m/s", "5 m/s", "100 m/s"],
+                correct: 0
+            },
+            {
+                question: "Newton's Third Law states:",
+                options: ["Objects at rest stay at rest", "F = ma", "For every action there is an equal and opposite reaction", "Energy is conserved"],
+                correct: 2
+            },
+            {
+                question: "Power is defined as:",
+                options: ["Work per unit time", "Force times distance", "Mass times acceleration", "Energy times velocity"],
+                correct: 0
+            },
+            {
+                question: "What happens to gravitational force as distance increases?",
+                options: ["Increases", "Decreases", "Stays the same", "Becomes zero"],
+                correct: 1
+            },
+            {
+                question: "Temperature measures the average _____ of particles:",
+                options: ["Potential energy", "Kinetic energy", "Mass", "Velocity"],
+                correct: 1
+            },
+            {
+                question: "The law of reflection states that angle of incidence equals:",
+                options: ["Angle of refraction", "Angle of reflection", "90 degrees", "0 degrees"],
+                correct: 1
+            },
+            {
+                question: "Sound travels through which type of wave?",
+                options: ["Transverse", "Longitudinal", "Electromagnetic", "Light"],
+                correct: 1
+            },
+            {
+                question: "Ohm's Law is expressed as:",
+                options: ["V = IR", "F = ma", "E = mc²", "P = W/t"],
+                correct: 0
+            },
+            {
+                question: "Magnets have how many poles?",
+                options: ["One", "Two", "Three", "Four"],
+                correct: 1
+            },
+            {
+                question: "Which is NOT a simple machine?",
+                options: ["Lever", "Pulley", "Engine", "Wedge"],
+                correct: 2
+            },
+            {
+                question: "MRI machines use which physics principle?",
+                options: ["Gravity", "Magnetism", "Sound", "Light"],
+                correct: 1
+            },
+            {
+                question: "Potential energy depends on:",
+                options: ["Speed", "Position", "Temperature", "Volume"],
+                correct: 1
+            },
+            {
+                question: "Current is measured in:",
+                options: ["Volts", "Ohms", "Amperes", "Watts"],
+                correct: 2
+            },
+            {
+                question: "What causes refraction?",
+                options: ["Light bouncing off surfaces", "Light bending when entering different mediums", "Sound reflection", "Heat transfer"],
+                correct: 1
+            },
+            {
+                question: "Frequency of sound is measured in:",
+                options: ["Meters", "Seconds", "Hertz", "Watts"],
+                correct: 2
+            },
+            {
+                question: "An inclined plane is an example of a:",
+                options: ["Complex machine", "Simple machine", "Energy source", "Wave"],
+                correct: 1
+            },
+            {
+                question: "Convection occurs in:",
+                options: ["Solids only", "Fluids (liquids and gases)", "Vacuum", "Metals only"],
+                correct: 1
+            },
+            {
+                question: "Electromagnets are created using:",
+                options: ["Permanent magnets", "Electric current", "Heat", "Light"],
+                correct: 1
+            },
+            {
+                question: "The speed of sound in air at room temperature is approximately:",
+                options: ["343 m/s", "3000 m/s", "100 m/s", "1000 m/s"],
+                correct: 0
+            }
+        ]
+    }
+};
+
 // Import Firebase Auth functions
 import {
     signInWithEmailAndPassword,
@@ -316,6 +782,7 @@ function initializeEventListeners() {
                 hideAllSections();
                 physicsCourse.style.display = 'flex';
                 loadLessonProgress();
+                loadConfidenceBar();
             }
         });
     });
@@ -336,8 +803,14 @@ function initializeEventListeners() {
             // Load lesson content from global lessonContent object
             if (window.lessonContent && window.lessonContent[lesson]) {
                 const content = window.lessonContent[lesson];
-                lessonContent.innerHTML = content.content + 
-                    `<button class="complete-lesson-btn" onclick="markComplete('${lesson}')">Mark as Complete</button>`;
+
+                // Check if this is a quiz
+                if (content.type === 'quiz') {
+                    renderQuiz(lesson, content);
+                } else {
+                    lessonContent.innerHTML = content.content +
+                        `<button class="complete-lesson-btn" onclick="markComplete('${lesson}')">Mark as Complete</button>`;
+                }
             } else {
                 lessonContent.innerHTML = `
                     <h2>${item.textContent}</h2>
@@ -523,6 +996,199 @@ window.markComplete = function(lessonId) {
     }
 
     alert('Immersive LFA: Lesson marked as complete!');
+}
+
+// Quiz Rendering and Confidence Tracking
+function renderQuiz(quizId, quizData) {
+    const lessonContent = document.getElementById('lesson-content');
+    const quizName = quizId === 'midterm' ? 'Midterm Quiz' : 'Final Test';
+    const questionsCount = quizData.totalQuestions;
+
+    let quizHTML = `
+        <h2>${quizName}</h2>
+        <p>Test your knowledge with ${questionsCount} questions. You need 80% or higher to proceed confidently.</p>
+        <div class="quiz-container" id="quiz-${quizId}">
+    `;
+
+    quizData.questions.forEach((q, index) => {
+        quizHTML += `
+            <div class="quiz-question">
+                <p class="question-text"><strong>Question ${index + 1}:</strong> ${q.question}</p>
+                <div class="quiz-options">
+        `;
+
+        q.options.forEach((option, optIndex) => {
+            quizHTML += `
+                <label class="quiz-option">
+                    <input type="radio" name="q${index}" value="${optIndex}" data-correct="${q.correct}">
+                    <span>${option}</span>
+                </label>
+            `;
+        });
+
+        quizHTML += `
+                </div>
+            </div>
+        `;
+    });
+
+    quizHTML += `
+        </div>
+        <button class="submit-quiz-btn" onclick="submitQuiz('${quizId}', ${questionsCount})">Submit ${quizName}</button>
+        <div class="quiz-result" id="quiz-result-${quizId}" style="display: none;"></div>
+    `;
+
+    lessonContent.innerHTML = quizHTML;
+}
+
+window.submitQuiz = function(quizId, totalQuestions) {
+    const quizContainer = document.getElementById(`quiz-${quizId}`);
+    const resultDiv = document.getElementById(`quiz-result-${quizId}`);
+
+    let correctAnswers = 0;
+    const questions = quizContainer.querySelectorAll('.quiz-question');
+
+    questions.forEach((question, index) => {
+        const selected = question.querySelector(`input[name="q${index}"]:checked`);
+        if (selected) {
+            const correctAnswer = parseInt(selected.getAttribute('data-correct'));
+            const selectedAnswer = parseInt(selected.value);
+
+            if (selectedAnswer === correctAnswer) {
+                correctAnswers++;
+                question.style.borderLeft = '4px solid #28a745';
+            } else {
+                question.style.borderLeft = '4px solid #dc3545';
+            }
+        } else {
+            question.style.borderLeft = '4px solid #dc3545';
+        }
+    });
+
+    const percentage = Math.round((correctAnswers / totalQuestions) * 100);
+    const passed = percentage >= 80;
+
+    // Save quiz score
+    saveQuizScore(quizId, correctAnswers, totalQuestions, percentage);
+
+    // Update confidence bar
+    updateConfidenceBar();
+
+    resultDiv.style.display = 'block';
+    resultDiv.className = passed ? 'quiz-result success' : 'quiz-result warning';
+    resultDiv.innerHTML = `
+        <h3>${passed ? '✅ Great Job!' : '⚠️ Need More Practice'}</h3>
+        <p>You scored ${correctAnswers} out of ${totalQuestions} (${percentage}%)</p>
+        <p>${passed ? '<strong>Good to go!</strong> You\'re ready to continue.' : '<strong>⚠️ Do not recommend further procedure until more correct.</strong> Review the lessons and try again.'}</p>
+        <button class="complete-lesson-btn" onclick="markComplete('${quizId}')">Mark as Complete</button>
+    `;
+
+    // Scroll to result
+    resultDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+};
+
+function saveQuizScore(quizId, correct, total, percentage) {
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `quizScores_${userId}`;
+
+    let scores = {};
+    const stored = localStorage.getItem(key);
+    if (stored) {
+        scores = JSON.parse(stored);
+    }
+
+    scores[quizId] = {
+        correct,
+        total,
+        percentage,
+        date: new Date().toISOString()
+    };
+
+    localStorage.setItem(key, JSON.stringify(scores));
+
+    // Update score display
+    const scoreElement = document.getElementById(`${quizId}-score`);
+    if (scoreElement) {
+        scoreElement.textContent = `${correct}/${total} (${percentage}%)`;
+    }
+}
+
+function updateConfidenceBar() {
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `quizScores_${userId}`;
+    const stored = localStorage.getItem(key);
+
+    if (!stored) {
+        return;
+    }
+
+    const scores = JSON.parse(stored);
+    const quizScores = Object.values(scores);
+
+    if (quizScores.length === 0) {
+        return;
+    }
+
+    // Calculate average percentage
+    const totalPercentage = quizScores.reduce((sum, score) => sum + score.percentage, 0);
+    const averagePercentage = Math.round(totalPercentage / quizScores.length);
+
+    const confidenceFill = document.getElementById('confidence-fill');
+    const confidencePercentage = document.getElementById('confidence-percentage');
+    const confidenceStatus = document.getElementById('confidence-status');
+
+    if (confidenceFill && confidencePercentage && confidenceStatus) {
+        confidenceFill.style.width = `${averagePercentage}%`;
+
+        // Change color based on percentage
+        if (averagePercentage >= 80) {
+            confidenceFill.style.background = 'linear-gradient(90deg, #28a745, #20c997)';
+        } else if (averagePercentage >= 60) {
+            confidenceFill.style.background = 'linear-gradient(90deg, #ffc107, #fd7e14)';
+        } else {
+            confidenceFill.style.background = 'linear-gradient(90deg, #dc3545, #c82333)';
+        }
+
+        confidencePercentage.textContent = `${averagePercentage}%`;
+
+        if (averagePercentage >= 80) {
+            confidenceStatus.innerHTML = '<strong>✅ Good to go!</strong><br>You\'re ready to continue.';
+            confidenceStatus.style.color = '#28a745';
+        } else {
+            confidenceStatus.innerHTML = '<strong>⚠️ Recommend not to go further</strong><br>Review lessons and improve scores.';
+            confidenceStatus.style.color = '#dc3545';
+        }
+    }
+}
+
+// Load confidence on page load
+function loadConfidenceBar() {
+    const userId = auth.currentUser?.uid || 'anonymous';
+    const key = `quizScores_${userId}`;
+    const stored = localStorage.getItem(key);
+
+    if (!stored) {
+        return;
+    }
+
+    const scores = JSON.parse(stored);
+
+    // Update score displays
+    if (scores.midterm) {
+        const midtermScore = document.getElementById('midterm-score');
+        if (midtermScore) {
+            midtermScore.textContent = `${scores.midterm.correct}/${scores.midterm.total} (${scores.midterm.percentage}%)`;
+        }
+    }
+
+    if (scores.finaltest) {
+        const finalScore = document.getElementById('final-score');
+        if (finalScore) {
+            finalScore.textContent = `${scores.finaltest.correct}/${scores.finaltest.total} (${scores.finaltest.percentage}%)`;
+        }
+    }
+
+    updateConfidenceBar();
 }
 
 // Booking Management Functions
